@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0A63BE01-94AF-48AC-AFBD-A5D4F93FD08E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>GoorooMania.Japi</RootNamespace>
+    <AssemblyName>GoorooMania.Japi</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Library\GM.Core\Collections\TypeHandlerLookup.cs">
+      <Link>Extern\TypeHandlerLookup.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Library\GM.Core\Conversion\ConversionKey.cs">
+      <Link>Extern\ConversionKey.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Library\GM.Core\Conversion\Converter.cs">
+      <Link>Extern\Converter.cs</Link>
+    </Compile>
+    <Compile Include="Extern\DelegateUtility.cs" />
+    <Compile Include="Extern\DynamicLibrary.cs" />
+    <Compile Include="Json\Expressions\BinaryExpressionSerializer.cs" />
+    <Compile Include="Json\Expressions\BlockExpressionSerializer.cs" />
+    <Compile Include="Json\Expressions\ConditionalExpressionSerializer.cs" />
+    <Compile Include="Json\Expressions\ConstantExpressionSerializer.cs" />
+    <Compile Include="Json\Expressions\DebugInfoExpressionSerializer.cs" />
+    <Compile Include="Json\Expressions\DefaultExpressionSerializer.cs" />
+    <Compile Include="Json\Expressions\DynamicExpressionSerializer.cs" />
+    <Compile Include="Json\Expressions\ExpressionSerializer.cs" />
+    <Compile Include="Json\Expressions\GotoExpressionSerializer.cs" />
+    <Compile Include="Json\Expressions\IndexExpressionSerializer.cs" />
+    <Compile Include="Json\Expressions\InvocationExpressionSerializer.cs" />
+    <Compile Include="Json\Expressions\ISpecificExpressionSerializer.cs" />
+    <Compile Include="Json\Expressions\LabelExpressionSerializer.cs" />
+    <Compile Include="Json\Expressions\LambdaExpressionSerializer.cs" />
+    <Compile Include="Json\Expressions\ListInitExpressionSerializer.cs" />
+    <Compile Include="Json\Expressions\LoopExpressionSerializer.cs" />
+    <Compile Include="Json\Expressions\MemberExpressionSerializer.cs" />
+    <Compile Include="Json\Expressions\MemberInitExpressionSerializer.cs" />
+    <Compile Include="Json\Expressions\MethodCallExpressionSerializer.cs" />
+    <Compile Include="Json\Expressions\NewArrayExpressionSerializer.cs" />
+    <Compile Include="Json\Expressions\NewExpressionSerializer.cs" />
+    <Compile Include="Json\Expressions\ParameterExpressionSerializer.cs" />
+    <Compile Include="Json\Expressions\RuntimeVariablesExpressionSerializer.cs" />
+    <Compile Include="Json\Expressions\SwitchExpressionSerializer.cs" />
+    <Compile Include="Json\Expressions\TryExpressionSerializer.cs" />
+    <Compile Include="Json\Expressions\TypeBinaryExpressionSerializer.cs" />
+    <Compile Include="Json\Expressions\UnaryExpressionSerializer.cs" />
+    <Compile Include="Json\JSON.cs" />
+    <Compile Include="Json\JsonWriter.cs" />
+    <Compile Include="Json\JsonArray.cs" />
+    <Compile Include="Json\JsonSerializer.cs" />
+    <Compile Include="Json\JsonValue.cs" />
+    <Compile Include="Json\JsonException.cs" />
+    <Compile Include="Json\JsonNode.cs" />
+    <Compile Include="Json\JsonObject.cs" />
+    <Compile Include="Json\Serialization\Handler\CatchBlockSerializer.cs" />
+    <Compile Include="Json\Serialization\Handler\ConstructorInfoSerializer.cs" />
+    <Compile Include="Json\Serialization\Handler\ElementInitSerializer.cs" />
+    <Compile Include="Json\Serialization\Handler\FieldInfoSerializer.cs" />
+    <Compile Include="Json\Serialization\Handler\GuidSerializer.cs" />
+    <Compile Include="Json\Serialization\Handler\LabelTargetSerializer.cs" />
+    <Compile Include="Json\Serialization\Handler\MemberAssignmentSerializer.cs" />
+    <Compile Include="Json\Serialization\Handler\MemberBindingSerializer.cs" />
+    <Compile Include="Json\Serialization\Handler\MemberInfoSerializer.cs" />
+    <Compile Include="Json\Serialization\Handler\MemberListBindingSerializer.cs" />
+    <Compile Include="Json\Serialization\Handler\MemberMemberBindingSerializer.cs" />
+    <Compile Include="Json\Serialization\Handler\MethodInfoSerializer.cs" />
+    <Compile Include="Json\Serialization\Handler\PropertyInfoSerializer.cs" />
+    <Compile Include="Json\Serialization\Handler\SwitchCaseSerializer.cs" />
+    <Compile Include="Json\Serialization\Handler\SymbolDocumentInfoSerializer.cs" />
+    <Compile Include="Json\Serialization\Handler\TypeSerializer.cs" />
+    <Compile Include="Json\Serialization\IJSonSerializationHandler.cs" />
+    <Compile Include="Json\Serialization\JSonSerializationHandler.cs" />
+    <Compile Include="Serialization\Conversion\IDataConverter.cs" />
+    <Compile Include="Serialization\Data\Path\DataOperations.cs" />
+    <Compile Include="Serialization\Data\Path\DataPathParser.cs" />
+    <Compile Include="Serialization\Data\Path\IndexPath.cs" />
+    <Compile Include="Serialization\Data\Path\IPathElement.cs" />
+    <Compile Include="Serialization\Data\Path\NodePath.cs" />
+    <Compile Include="Serialization\Data\Path\ParseMode.cs" />
+    <Compile Include="Serialization\Readers\Instance\FieldAttribute.cs" />
+    <Compile Include="Serialization\Readers\Instance\InstanceReader.cs" />
+    <Compile Include="Serialization\Readers\Instance\InstanceTransformationDescriptor.cs" />
+    <Compile Include="Serialization\Readers\Instance\InstanceTransformationTable.cs" />
+    <Compile Include="Serialization\Readers\Instance\InstanceConverter.cs" />
+    <Compile Include="Serialization\Readers\Instance\TypeAttribute.cs" />
+    <Compile Include="Serialization\Readers\ObjectReader.cs" />
+    <Compile Include="Serialization\Transformation\ArrayListTransformer.cs" />
+    <Compile Include="Serialization\Transformation\BigDecimalTransformer.cs" />
+    <Compile Include="Serialization\Transformation\BigIntegerTransformer.cs" />
+    <Compile Include="Serialization\Transformation\HashMapTransformer.cs" />
+    <Compile Include="Serialization\Transformation\IDataTransformer.cs" />
+    <Compile Include="Serialization\Transformation\ITransformationTable.cs" />
+    <Compile Include="Serialization\Transformation\JavaTransformationTable.cs" />
+    <Compile Include="Serialization\Transformation\LocaleTransformer.cs" />
+    <Compile Include="Serialization\Transformation\PODTransformer.cs" />
+    <Compile Include="Serialization\Transformation\SequencedHashMapTransformer.cs" />
+    <Compile Include="Serialization\Transformation\StructureReducer.cs" />
+    <Compile Include="Serialization\Transformation\TimeStampTransformer.cs" />
+    <Compile Include="Serialization\Transformation\TransformationTable.cs" />
+    <Compile Include="Serialization\Data\JavaArray.cs" />
+    <Compile Include="Serialization\Data\JavaException.cs" />
+    <Compile Include="Serialization\JavaSerializationStream.cs" />
+    <Compile Include="Serialization\ClassFlags.cs" />
+    <Compile Include="Serialization\DataType.cs" />
+    <Compile Include="Serialization\FieldDescriptor.cs" />
+    <Compile Include="Serialization\ClassDescriptor.cs" />
+    <Compile Include="Serialization\ObjectStream.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Serialization\Data\IJavaData.cs" />
+    <Compile Include="Serialization\Data\JavaField.cs" />
+    <Compile Include="Serialization\Data\JavaObject.cs" />
+    <Compile Include="Serialization\Data\JavaValue.cs" />
+    <Compile Include="Serialization\Readers\XmlObjectReader.cs" />
+    <Compile Include="Serialization\StreamCorruptedException.cs" />
+    <Compile Include="Serialization\Tag.cs" />
+    <Compile Include="Extern\XMLExtensions.cs" />
+    <Compile Include="Serialization\Conversion\XmlDataConverter.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target> -->
+  <Target Name="AfterBuild">
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(DevDir)\Compiled\Library\" />
+    <Copy SourceFiles="$(DocumentationFile)" DestinationFolder="$(DevDir)\Compiled\Library\" />
+  </Target>
+</Project>
