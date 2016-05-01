@@ -69,7 +69,7 @@ namespace GoorooMania.Japi.Json
                 return ReadArray(type.GetElementType(), (JsonArray)node);
             }
 
-            if(type.IsValueType || type.IsEnum || type == typeof(string)) {
+            if(type.IsValueType || type.IsEnum || type == typeof(string) || type == typeof(Version)) {
                 if(!(node is JsonValue))
                     throw new JsonException("Unable to read value from non value node");
                 return Converter.Convert(((JsonValue)node).Value, type);
@@ -111,7 +111,7 @@ namespace GoorooMania.Japi.Json
                 return WriteArray((Array)@object);
             }
 
-            if(@object == null || @object is string || @object.GetType().IsEnum || @object.GetType().IsValueType)
+            if(@object == null || @object is string || @object.GetType().IsEnum || @object.GetType().IsValueType || @object is Version)
                 return new JsonValue(@object);
 
             if(customserializers.ContainsKey(@object.GetType()))
