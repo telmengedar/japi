@@ -82,7 +82,7 @@ namespace GoorooMania.Japi.Json
                 throw new JsonException("Unable to read object from non object node");
             JsonObject @object = (JsonObject)node;
 
-            object instance = Activator.CreateInstance(type);
+            object instance = Activator.CreateInstance(type, true);
             foreach(PropertyInfo property in type.GetProperties(BindingFlags.Public | BindingFlags.Instance)) {
                 if(!property.CanWrite|| !@object.ContainsKey(property.Name.ToLower()))
                     continue;
