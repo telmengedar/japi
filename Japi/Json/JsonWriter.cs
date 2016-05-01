@@ -254,7 +254,7 @@ namespace GoorooMania.Japi.Json
         /// <param name="node"></param>
         /// <param name="target"></param>
         public static void Write(JsonNode node, Stream target) {
-            using(TextWriter writer = new StreamWriter(target))
+            using(TextWriter writer = new StreamWriter(target, Encoding.UTF8, 1024, true))
                 Write(node, writer);
         }
 
