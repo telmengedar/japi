@@ -29,7 +29,7 @@ namespace GoorooMania.Japi.Json
         /// <param name="stream"></param>
         /// <returns></returns>
         public static JsonNode Read(Stream stream) {
-            using(StreamReader reader = new StreamReader(stream, Encoding.UTF8))
+            using(StreamReader reader = new StreamReader(stream, Encoding.UTF8, false, 1024, true))
                 return Read(reader);
         }
 
