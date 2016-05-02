@@ -1,0 +1,74 @@
+﻿﻿{
+    "type": 18,
+    "parameters": [
+        {
+            "type": 38,
+            "paramtype": {
+                "assembly": "GoorooMania.Updates",
+                "namespace": "GoorooMania.Updates.Database.Resources",
+                "name": "Application"
+            },
+            "name": "a"
+        }
+    ],
+    "name": null,
+    "body": {
+        "type": 13,
+        "left": {
+            "type": 23,
+            "expressiontype": "parameter",
+            "expression": {
+                "type": 38,
+                "paramtype": {
+                    "assembly": "GoorooMania.Updates",
+                    "namespace": "GoorooMania.Updates.Database.Resources",
+                    "name": "Application"
+                },
+                "name": "a"
+            },
+            "member": {
+                "type": "property",
+                "host": {
+                    "assembly": "GoorooMania.Updates",
+                    "namespace": "GoorooMania.Updates.Database.Resources",
+                    "name": "Application"
+                },
+                "name": "Name"
+            }
+        },
+        "right": {
+            "type": 23,
+            "value": "CardLogin",
+            "valuetype": {
+                "assembly": "mscorlib",
+                "namespace": "System",
+                "name": "String"
+            }
+        },
+        "method": {
+            "type": "method",
+            "host": {
+                "assembly": "mscorlib",
+                "namespace": "System",
+                "name": "String"
+            },
+            "method": "op_Equality",
+            "parameters": [
+                {
+                    "assembly": "mscorlib",
+                    "namespace": "System",
+                    "name": "String"
+                },
+                {
+                    "assembly": "mscorlib",
+                    "namespace": "System",
+                    "name": "String"
+                }
+            ],
+            "genericarguments": [ ]
+        },
+        "conversion": null,
+        "isliftedtonull": false
+    },
+    "tail": false
+}

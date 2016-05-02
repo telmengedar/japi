@@ -27,5 +27,12 @@ namespace GoorooMania.Japi.Tests {
             Expression<Func<TestObject, bool>> othertest = JsonSerializer.Read<Expression<Func<TestObject, bool>>>(otherjson);
             Assert.AreEqual(expression.ToString(), othertest.ToString());
         }
+
+        [Test]
+        public void ReadJson([ValueSource(typeof(Resources), nameof(Resources.JSon))]ResourceData<string> data) {
+            string json = data.Data;
+            JsonWriter.Read(json);
+            Assert.Pass();
+        }
     }
 }

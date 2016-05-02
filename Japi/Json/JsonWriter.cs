@@ -29,7 +29,7 @@ namespace GoorooMania.Japi.Json
         /// <param name="stream"></param>
         /// <returns></returns>
         public static JsonNode Read(Stream stream) {
-            using(StreamReader reader = new StreamReader(stream, Encoding.UTF8, false, 1024, true))
+            using(StreamReader reader = new StreamReader(stream, Encoding.UTF8))
                 return Read(reader);
         }
 
@@ -228,11 +228,12 @@ namespace GoorooMania.Japi.Json
                     throw new InvalidOperationException("unexpected stream end");
 
                 char character = (char)read;
-                if(char.IsWhiteSpace(character))
+                if(char.IsWhiteSpace(character) || character == 65279)
                     reader.Read();
                 else
                     return;
-            } while(true);
+            }
+            while(true);
         }
 
         /// <summary>
@@ -254,7 +255,7 @@ namespace GoorooMania.Japi.Json
         /// <param name="node"></param>
         /// <param name="target"></param>
         public static void Write(JsonNode node, Stream target) {
-            using(TextWriter writer = new StreamWriter(target, Encoding.UTF8, 1024, true))
+            using(TextWriter writer = new StreamWriter(target, Encoding.UTF8))
                 Write(node, writer);
         }
 

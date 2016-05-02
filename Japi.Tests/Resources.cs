@@ -46,5 +46,21 @@ namespace GoorooMania.Japi.Tests {
             }
         }
 
+        public static IEnumerable<ResourceData<string>> JSon
+        {
+            get
+            {
+                foreach (string resource in typeof(ObjectStreamTests).Assembly.GetManifestResourceNames().Where(n => n.StartsWith("GoorooMania.Japi.Tests.Data.Json")))
+                {
+                    using (Stream data = typeof(ObjectStreamTests).Assembly.GetManifestResourceStream(resource))
+                    {
+                        using (StreamReader reader = new StreamReader(data))
+                        {
+                            yield return new ResourceData<string>(resource, reader.ReadToEnd());
+                        }
+                    }
+                }
+            }
+        } 
     }
 }
