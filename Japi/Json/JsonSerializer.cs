@@ -58,12 +58,13 @@ namespace GoorooMania.Japi.Json
         /// <returns>instance with data from json node</returns>
         public static object Read(Type type, JsonNode node) {
             if(type.GetInterfaces().Contains(typeof(ICustomJsonSerialization))) {
+                Type customtype = node.SelectValue<Type>("type");
 #if WINDOWS_UWP
-                ICustomJsonSerialization customobject = (ICustomJsonSerialization)Activator.CreateInstance(type);
+                ICustomJsonSerialization customobject = (ICustomJsonSerialization)Activator.CreateInstance(customtype);
 #else
-                ICustomJsonSerialization customobject = (ICustomJsonSerialization)Activator.CreateInstance(type, true);
+                ICustomJsonSerialization customobject = (ICustomJsonSerialization)Activator.CreateInstance(customtype, true);
 #endif
-                customobject.Deserialize(node);
+                customobject.Deserialize(node["data"]);
                 return customobject;
             }
 
@@ -146,8 +147,11 @@ namespace GoorooMania.Japi.Json
         /// <returns></returns>
         public static JsonNode Write(object @object) {
             if(@object is ICustomJsonSerialization) {
-                JsonNode customnode = ((ICustomJsonSerialization)@object).Serialize();
-                return customnode;
+                JsonObject jsonobject = new JsonObject {
+                    ["type"] = new JsonValue(@object.GetType()),
+                    ["data"] = ((ICustomJsonSerialization)@object).Serialize()
+                };
+                return jsonobject;
             }
 
             if(@object is Array) {
