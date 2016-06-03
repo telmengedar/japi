@@ -21,10 +21,12 @@ namespace GoorooMania.Japi.Json
         public JsonException(string message, Exception innerException)
             : base(message, innerException) {}
 
+#if !WINDOWS_UWP
         /// <summary>
         /// creates a new json exception
         /// </summary>
         protected JsonException(SerializationInfo info, StreamingContext context)
             : base(info, context) {}
+#endif
     }
 }

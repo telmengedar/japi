@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using GoorooMania.Core.Collections;
-using GoorooMania.Core.Conversion;
-using GoorooMania.Japi.Json.Expressions;
+using GoorooMania.Japi.Extern;
+#if !WINDOWS_UWP
+    using GoorooMania.Japi.Json.Expressions;
+#endif
+
 using GoorooMania.Japi.Json.Serialization;
 using GoorooMania.Japi.Json.Serialization.Handler;
 
@@ -17,11 +20,13 @@ namespace GoorooMania.Japi.Json
         static readonly TypeHandlerLookup<IJSonSerializationHandler> customserializers = new TypeHandlerLookup<IJSonSerializationHandler>();
 
         static JsonSerializer() {
+            customserializers.SetHandler(typeof(Type), new TypeSerializer());
+
+#if !WINDOWS_UWP
             customserializers.SetHandler(typeof(Expression), new ExpressionSerializer());
             customserializers.SetHandler(typeof(Guid), new GuidSerializer());
             customserializers.SetHandler(typeof(MethodInfo), new MethodInfoSerializer());
-            customserializers.SetHandler(typeof(SymbolDocumentInfo), new SymbolDocumentInfoSerializer());
-            customserializers.SetHandler(typeof(Type), new TypeSerializer());
+            customserializers.SetHandler(typeof(SymbolDocumentInfo), new SymbolDocumentInfoSerializer());            
             customserializers.SetHandler(typeof(PropertyInfo), new PropertyInfoSerializer());
             customserializers.SetHandler(typeof(MemberAssignment), new MemberAssignmentSerializer());
             customserializers.SetHandler(typeof(MemberMemberBinding), new MemberMemberBindingSerializer());
@@ -32,6 +37,7 @@ namespace GoorooMania.Japi.Json
             customserializers.SetHandler(typeof(CatchBlock), new CatchBlockSerializer());
             customserializers.SetHandler(typeof(FieldInfo), new FieldInfoSerializer());
             customserializers.SetHandler(typeof(MemberInfo), new MemberInfoSerializer());
+#endif
         }
 
         /// <summary>
@@ -51,6 +57,16 @@ namespace GoorooMania.Japi.Json
         /// <param name="node">json node</param>
         /// <returns>instance with data from json node</returns>
         public static object Read(Type type, JsonNode node) {
+            if(type.GetInterfaces().Contains(typeof(ICustomJsonSerialization))) {
+#if WINDOWS_UWP
+                ICustomJsonSerialization customobject = (ICustomJsonSerialization)Activator.CreateInstance(type);
+#else
+                ICustomJsonSerialization customobject = (ICustomJsonSerialization)Activator.CreateInstance(type, true);
+#endif
+                customobject.Deserialize(node);
+                return customobject;
+            }
+
             if(node is JsonValue && ((JsonValue)node).Value == null)
                 return null;
 
@@ -69,8 +85,12 @@ namespace GoorooMania.Japi.Json
                 return ReadArray(type.GetElementType(), (JsonArray)node);
             }
 
+#if WINDOWS_UWP
+            if (type.GetTypeInfo().IsValueType || type.GetTypeInfo().IsEnum || type == typeof(string) || type == typeof(Version)) {
+#else        
             if(type.IsValueType || type.IsEnum || type == typeof(string) || type == typeof(Version)) {
-                if(!(node is JsonValue))
+#endif
+                if (!(node is JsonValue))
                     throw new JsonException("Unable to read value from non value node");
                 return Converter.Convert(((JsonValue)node).Value, type);
             }
@@ -82,11 +102,31 @@ namespace GoorooMania.Japi.Json
                 throw new JsonException("Unable to read object from non object node");
             JsonObject @object = (JsonObject)node;
 
+#if WINDOWS_UWP
+            object instance = Activator.CreateInstance(type);
+#else
             object instance = Activator.CreateInstance(type, true);
+#endif
+
             foreach(PropertyInfo property in type.GetProperties(BindingFlags.Public | BindingFlags.Instance)) {
-                if(!property.CanWrite|| !@object.ContainsKey(property.Name.ToLower()))
+                if(!property.CanWrite)
                     continue;
-                object value = Read(property.PropertyType, @object[property.Name.ToLower()]);
+
+                string key = JsonKeyAttribute.GetKey(property) ?? property.Name.ToLower();
+
+                if(!@object.ContainsKey(key))
+                    continue;
+
+                string loader = JsonLoaderAttribute.Get(property);
+
+                object value;
+                if(loader != null) {
+                    MethodInfo method = type.GetMethod(loader, BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+                    value = method.Invoke(null, new object[] { @object[key] });
+                }
+                else {
+                    value = Read(property.PropertyType, @object[key]);
+                }
                 property.SetValue(instance, Converter.Convert(value, property.PropertyType), null);
             }
             return instance;
@@ -105,13 +145,22 @@ namespace GoorooMania.Japi.Json
         /// <param name="object"></param>
         /// <returns></returns>
         public static JsonNode Write(object @object) {
+            if(@object is ICustomJsonSerialization) {
+                JsonNode customnode = ((ICustomJsonSerialization)@object).Serialize();
+                return customnode;
+            }
+
             if(@object is Array) {
                 if(@object.GetType().GetElementType() == typeof(byte))
                     return new JsonValue(Convert.ToBase64String((byte[])@object));
                 return WriteArray((Array)@object);
             }
 
+#if WINDOWS_UWP
+            if (@object == null || @object is string || @object.GetType().GetTypeInfo().IsEnum || @object.GetType().GetTypeInfo().IsValueType || @object is Version)
+#else
             if(@object == null || @object is string || @object.GetType().IsEnum || @object.GetType().IsValueType || @object is Version)
+#endif
                 return new JsonValue(@object);
 
             if(customserializers.ContainsKey(@object.GetType()))
@@ -121,7 +170,9 @@ namespace GoorooMania.Japi.Json
             foreach(PropertyInfo property in @object.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance)) {
                 if(!property.CanWrite)
                     continue;
-                json[property.Name.ToLower()] = Write(property.GetValue(@object));
+
+                string key = JsonKeyAttribute.GetKey(property) ?? property.Name.ToLower();
+                json[key] = Write(property.GetValue(@object));
             }
             return json;
         }

@@ -42,17 +42,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\Library\GM.Core\Collections\TypeHandlerLookup.cs">
-      <Link>Extern\TypeHandlerLookup.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Library\GM.Core\Conversion\ConversionKey.cs">
-      <Link>Extern\ConversionKey.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Library\GM.Core\Conversion\Converter.cs">
-      <Link>Extern\Converter.cs</Link>
-    </Compile>
+    <Compile Include="Extern\ConversionKey.cs" />
+    <Compile Include="Extern\Converter.cs" />
     <Compile Include="Extern\DelegateUtility.cs" />
     <Compile Include="Extern\DynamicLibrary.cs" />
+    <Compile Include="Extern\TypeHandlerLookup.cs" />
     <Compile Include="Json\Expressions\BinaryExpressionSerializer.cs" />
     <Compile Include="Json\Expressions\BlockExpressionSerializer.cs" />
     <Compile Include="Json\Expressions\ConditionalExpressionSerializer.cs" />
@@ -81,6 +75,8 @@
     <Compile Include="Json\Expressions\TypeBinaryExpressionSerializer.cs" />
     <Compile Include="Json\Expressions\UnaryExpressionSerializer.cs" />
     <Compile Include="Json\JSON.cs" />
+    <Compile Include="Json\JsonKeyAttribute.cs" />
+    <Compile Include="Json\JsonLoaderAttribute.cs" />
     <Compile Include="Json\JsonWriter.cs" />
     <Compile Include="Json\JsonArray.cs" />
     <Compile Include="Json\JsonSerializer.cs" />
@@ -104,6 +100,7 @@
     <Compile Include="Json\Serialization\Handler\SwitchCaseSerializer.cs" />
     <Compile Include="Json\Serialization\Handler\SymbolDocumentInfoSerializer.cs" />
     <Compile Include="Json\Serialization\Handler\TypeSerializer.cs" />
+    <Compile Include="Json\Serialization\ICustomJsonSerialization.cs" />
     <Compile Include="Json\Serialization\IJSonSerializationHandler.cs" />
     <Compile Include="Json\Serialization\JSonSerializationHandler.cs" />
     <Compile Include="Serialization\Conversion\IDataConverter.cs" />

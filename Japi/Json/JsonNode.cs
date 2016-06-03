@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using GoorooMania.Core.Conversion;
+using GoorooMania.Japi.Extern;
 
 namespace GoorooMania.Japi.Json
 {

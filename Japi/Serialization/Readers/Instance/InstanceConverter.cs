@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using GoorooMania.Core.Conversion;
+using GoorooMania.Japi.Extern;
 using GoorooMania.Japi.Serialization.Data;
 using GoorooMania.Japi.Serialization.Transformation;
 

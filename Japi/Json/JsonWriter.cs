@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.IO;
 using System.Text;
-using GoorooMania.Core.Conversion;
+using GoorooMania.Japi.Extern;
 
 namespace GoorooMania.Japi.Json
 {
@@ -29,7 +29,7 @@ namespace GoorooMania.Japi.Json
         /// <param name="stream"></param>
         /// <returns></returns>
         public static JsonNode Read(Stream stream) {
-            using(StreamReader reader = new StreamReader(stream, Encoding.UTF8))
+            using(StreamReader reader = new StreamReader(stream, Encoding.UTF8, true))
                 return Read(reader);
         }
 
@@ -199,7 +199,14 @@ namespace GoorooMania.Japi.Json
 
             // there are no differences between int and long except long allows for a larger range of numbers
             // if someone pushes something like ticks in these values parsing it with int could crash
-            return long.Parse(value);
+            try {
+                return long.Parse(value);
+            }
+            catch(Exception e) {
+
+                throw new JsonException("Unable to parse '" + value + "'", e);
+            }
+            
         }
 
         static string ReadKey(TextReader reader) {
@@ -228,7 +235,7 @@ namespace GoorooMania.Japi.Json
                     throw new InvalidOperationException("unexpected stream end");
 
                 char character = (char)read;
-                if(char.IsWhiteSpace(character) || character == 65279)
+                if(char.IsWhiteSpace(character))
                     reader.Read();
                 else
                     return;
@@ -255,7 +262,7 @@ namespace GoorooMania.Japi.Json
         /// <param name="node"></param>
         /// <param name="target"></param>
         public static void Write(JsonNode node, Stream target) {
-            using(TextWriter writer = new StreamWriter(target, Encoding.UTF8))
+            using(TextWriter writer = new StreamWriter(target, new UTF8Encoding(false)))
                 Write(node, writer);
         }
 
