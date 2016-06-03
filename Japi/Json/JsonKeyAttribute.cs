@@ -28,7 +28,11 @@ namespace GoorooMania.Japi.Json {
         /// <param name="property">name of property</param>
         /// <returns>name of key</returns>
         public static string GetKey(PropertyInfo property) {
+#if WINDOWS_UWP
+            JsonKeyAttribute attribute = property.GetCustomAttribute<JsonKeyAttribute>();
+#else
             JsonKeyAttribute attribute = GetCustomAttribute(property, typeof(JsonKeyAttribute)) as JsonKeyAttribute;
+#endif
             return attribute?.Key;
         }
     }

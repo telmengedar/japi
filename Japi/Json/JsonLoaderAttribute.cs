@@ -23,7 +23,11 @@ namespace GoorooMania.Japi.Json {
         public string Method { get; }
 
         public static string Get(PropertyInfo property) {
-            JsonLoaderAttribute attribute=GetCustomAttribute(property, typeof(JsonLoaderAttribute)) as JsonLoaderAttribute;
+#if WINDOWS_UWP
+            JsonLoaderAttribute attribute = property.GetCustomAttribute<JsonLoaderAttribute>();
+#else
+            JsonLoaderAttribute attribute = GetCustomAttribute(property, typeof(JsonLoaderAttribute)) as JsonLoaderAttribute;
+#endif
             return attribute?.Method;
         }
     }
