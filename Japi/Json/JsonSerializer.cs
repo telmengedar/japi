@@ -57,6 +57,17 @@ namespace GoorooMania.Japi.Json
         /// <param name="node">json node</param>
         /// <returns>instance with data from json node</returns>
         public static object Read(Type type, JsonNode node) {
+            return Read(type, node, false);
+        }
+
+        /// <summary>
+        /// reads a type from a json node
+        /// </summary>
+        /// <param name="type">type to read</param>
+        /// <param name="node">json node</param>
+        /// <param name="variant"></param>
+        /// <returns>instance with data from json node</returns>
+        static object Read(Type type, JsonNode node, bool variant) {
             if(type.GetInterfaces().Contains(typeof(ICustomJsonSerialization))) {
                 Type customtype = Read<Type>(node["type"]);
 #if WINDOWS_UWP
@@ -96,7 +107,14 @@ namespace GoorooMania.Japi.Json
                 return Converter.Convert(((JsonValue)node).Value, type);
             }
 
-            if(customserializers.ContainsKey(type))
+            // check for variant types
+            if (variant)
+            {
+                Type customtype = Read<Type>(node["type"]);
+                return Read(customtype, node["data"]);
+            }
+
+            if (customserializers.ContainsKey(type))
                 return customserializers[type].Deserialize(node);
 
             if(!(node is JsonObject))
@@ -126,7 +144,7 @@ namespace GoorooMania.Japi.Json
                     value = method.Invoke(null, new object[] { @object[key] });
                 }
                 else {
-                    value = Read(property.PropertyType, @object[key]);
+                    value = Read(property.PropertyType, @object[key], VariantAttribute.IsVariant(property));
                 }
                 property.SetValue(instance, Converter.Convert(value, property.PropertyType), null);
             }
@@ -146,7 +164,18 @@ namespace GoorooMania.Japi.Json
         /// <param name="object"></param>
         /// <returns></returns>
         public static JsonNode Write(object @object) {
-            if(@object is ICustomJsonSerialization) {
+            return Write(@object, false);
+        }
+
+        /// <summary>
+        /// writes an object to a json structure
+        /// </summary>
+        /// <param name="object"></param>
+        /// <param name="variant"></param>
+        /// <returns></returns>
+        static JsonNode Write(object @object, bool variant) {
+            bool iscustom = @object is ICustomJsonSerialization;
+            if (iscustom) {
                 JsonObject jsonobject = new JsonObject {
                     ["type"] = Write(@object.GetType()),
                     ["data"] = ((ICustomJsonSerialization)@object).Serialize()
@@ -157,17 +186,26 @@ namespace GoorooMania.Japi.Json
             if(@object is Array) {
                 if(@object.GetType().GetElementType() == typeof(byte))
                     return new JsonValue(Convert.ToBase64String((byte[])@object));
-                return WriteArray((Array)@object);
+                return WriteArray((Array)@object, variant);
             }
 
 #if WINDOWS_UWP
             if (@object == null || @object is string || @object.GetType().GetTypeInfo().IsEnum || @object.GetType().GetTypeInfo().IsValueType || @object is Version)
 #else
-            if(@object == null || @object is string || @object.GetType().IsEnum || @object.GetType().IsValueType || @object is Version)
+            if (@object == null || @object is string || @object.GetType().IsEnum || @object.GetType().IsValueType || @object is Version)
 #endif
                 return new JsonValue(@object);
 
-            if(customserializers.ContainsKey(@object.GetType()))
+            // check for variant types
+            if (variant) {
+                JsonObject jsonobject = new JsonObject {
+                    ["type"] = Write(@object.GetType()),
+                    ["data"] = Write(@object)
+                };
+                return jsonobject;
+            }
+
+            if (customserializers.ContainsKey(@object.GetType()))
                 return customserializers[@object.GetType()].Serialize(@object);
 
             JsonObject json = new JsonObject();
@@ -176,15 +214,15 @@ namespace GoorooMania.Japi.Json
                     continue;
 
                 string key = JsonKeyAttribute.GetKey(property) ?? property.Name.ToLower();
-                json[key] = Write(property.GetValue(@object));
+                json[key] = Write(property.GetValue(@object), VariantAttribute.IsVariant(property));
             }
             return json;
         }
 
-        static JsonArray WriteArray(Array array) {
+        static JsonArray WriteArray(Array array, bool variant = false) {
             JsonArray json = new JsonArray();
             for(int i = 0; i < array.Length; ++i)
-                json.Add(Write(array.GetValue(i)));
+                json.Add(Write(array.GetValue(i), variant));
             return json;
         }
     }

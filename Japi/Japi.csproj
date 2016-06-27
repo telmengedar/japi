@@ -32,6 +32,12 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>gooroomania.snk.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -103,6 +109,7 @@
     <Compile Include="Json\Serialization\ICustomJsonSerialization.cs" />
     <Compile Include="Json\Serialization\IJSonSerializationHandler.cs" />
     <Compile Include="Json\Serialization\JSonSerializationHandler.cs" />
+    <Compile Include="Json\VariantAttribute.cs" />
     <Compile Include="Serialization\Conversion\IDataConverter.cs" />
     <Compile Include="Serialization\Data\Path\DataOperations.cs" />
     <Compile Include="Serialization\Data\Path\DataPathParser.cs" />
@@ -149,7 +156,9 @@
     <Compile Include="Extern\XMLExtensions.cs" />
     <Compile Include="Serialization\Conversion\XmlDataConverter.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="gooroomania.snk.pfx" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

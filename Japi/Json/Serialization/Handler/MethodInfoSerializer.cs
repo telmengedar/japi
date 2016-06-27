@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -22,22 +21,44 @@ namespace GoorooMania.Japi.Json.Serialization.Handler {
             Type[] parameters = json["parameters"].Select(JsonSerializer.Read<Type>).ToArray();
             Type[] generic = json["genericarguments"].Select(JsonSerializer.Read<Type>).ToArray();
 
-            return host.GetMethods().First(m => m.Name == name && IEnumerableEquals(parameters, m.GetParameters().Select(p => p.ParameterType)) && IEnumerableEquals(generic, m.GetGenericArguments()));
-        }
+            foreach(MethodInfo method in host.GetMethods().Where(m => m.Name == name)) {
+                Type[] genericarguments = method.GetGenericArguments();
+                int index = 0;
+                bool matches = true;
+                foreach(Type type in genericarguments) {
+                    if(!type.IsGenericParameter) {
+                        matches = type == generic[index];
+                        if(!matches)
+                            break;
+                    }
+                    ++index;
+                }
 
-        bool IEnumerableEquals<T>(IEnumerable<T> lhs, IEnumerable<T> rhs) {
-            T[] lhsarray = lhs is Array ? (T[])lhs : lhs.ToArray();
-            T[] rhsarray = rhs is Array ? (T[])rhs : rhs.ToArray();
+                if(!matches)
+                    continue;
 
-            if(lhsarray.Length != rhsarray.Length)
-                return false;
+                ParameterInfo[] methodparameters = method.GetParameters();
+                if(methodparameters.Length != parameters.Length)
+                    continue;
 
-            for(int i = 0; i < lhsarray.Length; ++i) {
-                if(!lhsarray[i].Equals(rhsarray[i]))
-                    return false;
+                index = 0;
+                foreach(ParameterInfo parameterinfo in methodparameters) {
+                    if(parameterinfo.ParameterType.IsGenericType)
+                        matches = parameterinfo.ParameterType.Namespace == parameters[index].Namespace && parameterinfo.ParameterType.Name == parameters[index].Name;
+                    else if(!parameterinfo.ParameterType.IsGenericParameter)
+                        matches = parameterinfo.ParameterType == parameters[index];
+                    if(!matches)
+                        break;
+                    ++index;
+                }
+                if(matches) {
+                    if(generic.Length > 0)
+                        return method.MakeGenericMethod(generic);
+                    return method;
+                }
             }
-
-            return true;
+            throw new MissingMethodException("Method not found");
+            //return host.GetMethods().First(m => m.Name == name && IEnumerableEquals(parameters, m.GetParameters().Select(p => p.ParameterType)) && IEnumerableEquals(generic, m.GetGenericArguments()));
         }
     }
 }

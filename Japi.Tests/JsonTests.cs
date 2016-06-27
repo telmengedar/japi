@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Linq.Expressions;
 using GoorooMania.Japi.Json;
 using NUnit.Framework;
@@ -26,6 +27,31 @@ namespace GoorooMania.Japi.Tests {
             JsonNode otherjson = JsonWriter.Read(jsondata);
             Expression<Func<TestObject, bool>> othertest = JsonSerializer.Read<Expression<Func<TestObject, bool>>>(otherjson);
             Assert.AreEqual(expression.ToString(), othertest.ToString());
+        }
+
+        [Test]
+        public void EnumerationExtensionTest() {
+            int[] array = {1, 2, 3};
+            Expression<Func<TestObject, bool>> expression = o => array.Contains(o.Integer);
+            string json = JSON.WriteString(expression);
+            Expression<Func<TestObject, bool>> other = JSON.Read<Expression<Func<TestObject, bool>>>(json);
+            Func<TestObject, bool> compiled = other.Compile();
+            Assert.That(compiled(new TestObject() {
+                Integer = 1
+            }));
+            Assert.That(compiled(new TestObject()
+            {
+                Integer = 2
+            }));
+            Assert.That(compiled(new TestObject()
+            {
+                Integer = 3
+            }));
+            Assert.That(!compiled(new TestObject()
+            {
+                Integer = 4
+            }));
+            //Assert.AreEqual(expression.ToString(), other.ToString());
         }
 
         [Test]
