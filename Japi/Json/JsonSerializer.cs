@@ -1,43 +1,19 @@
 ﻿using System;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Reflection;
-using GoorooMania.Japi.Extern;
-#if !WINDOWS_UWP
-    using GoorooMania.Japi.Json.Expressions;
-#endif
+using NightlyCode.Core.Conversion;
+using NightlyCode.Japi.Json.Serialization;
 
-using GoorooMania.Japi.Json.Serialization;
-using GoorooMania.Japi.Json.Serialization.Handler;
-
-namespace GoorooMania.Japi.Json
+namespace NightlyCode.Japi.Json
 {
-
     /// <summary>
     /// serializes objects to json structures
     /// </summary>
-    public class JsonSerializer {
-        static readonly TypeHandlerLookup<IJSonSerializationHandler> customserializers = new TypeHandlerLookup<IJSonSerializationHandler>();
+    internal class JsonSerializer : IJsonSerializer {
+        readonly CustomerSerializerCollection serializers;
 
-        static JsonSerializer() {
-            customserializers.SetHandler(typeof(Type), new TypeSerializer());
-
-#if !WINDOWS_UWP
-            customserializers.SetHandler(typeof(Expression), new ExpressionSerializer());
-            customserializers.SetHandler(typeof(Guid), new GuidSerializer());
-            customserializers.SetHandler(typeof(MethodInfo), new MethodInfoSerializer());
-            customserializers.SetHandler(typeof(SymbolDocumentInfo), new SymbolDocumentInfoSerializer());            
-            customserializers.SetHandler(typeof(PropertyInfo), new PropertyInfoSerializer());
-            customserializers.SetHandler(typeof(MemberAssignment), new MemberAssignmentSerializer());
-            customserializers.SetHandler(typeof(MemberMemberBinding), new MemberMemberBindingSerializer());
-            customserializers.SetHandler(typeof(MemberListBinding), new MemberListBindingSerializer());
-            customserializers.SetHandler(typeof(MemberBinding), new MemberBindingSerializer());
-            customserializers.SetHandler(typeof(ConstructorInfo), new ConstructorInfoSerializer());
-            customserializers.SetHandler(typeof(SwitchCase), new SwitchCaseSerializer());
-            customserializers.SetHandler(typeof(CatchBlock), new CatchBlockSerializer());
-            customserializers.SetHandler(typeof(FieldInfo), new FieldInfoSerializer());
-            customserializers.SetHandler(typeof(MemberInfo), new MemberInfoSerializer());
-#endif
+        public JsonSerializer() {
+            serializers = new CustomerSerializerCollection(this);
         }
 
         /// <summary>
@@ -46,7 +22,7 @@ namespace GoorooMania.Japi.Json
         /// <typeparam name="T">type to read</typeparam>
         /// <param name="node">json node</param>
         /// <returns>instance with data from json node</returns>
-        public static T Read<T>(JsonNode node) {
+        public T Read<T>(JsonNode node) {
             return (T)Read(typeof(T), node);
         }
 
@@ -56,7 +32,7 @@ namespace GoorooMania.Japi.Json
         /// <param name="type">type to read</param>
         /// <param name="node">json node</param>
         /// <returns>instance with data from json node</returns>
-        public static object Read(Type type, JsonNode node) {
+        public object Read(Type type, JsonNode node) {
             return Read(type, node, false);
         }
 
@@ -67,7 +43,7 @@ namespace GoorooMania.Japi.Json
         /// <param name="node">json node</param>
         /// <param name="variant"></param>
         /// <returns>instance with data from json node</returns>
-        static object Read(Type type, JsonNode node, bool variant) {
+        object Read(Type type, JsonNode node, bool variant) {
             if(type.GetInterfaces().Contains(typeof(ICustomJsonSerialization))) {
                 Type customtype = Read<Type>(node["type"]);
 #if WINDOWS_UWP
@@ -94,7 +70,7 @@ namespace GoorooMania.Japi.Json
 
                 if (!(node is JsonArray))
                     throw new JsonException("Unable to read array from non array json node");
-                return ReadArray(type.GetElementType(), (JsonArray)node);
+                return ReadArray(type.GetElementType(), (JsonArray)node, variant);
             }
 
 #if WINDOWS_UWP
@@ -114,8 +90,8 @@ namespace GoorooMania.Japi.Json
                 return Read(customtype, node["data"]);
             }
 
-            if (customserializers.ContainsKey(type))
-                return customserializers[type].Deserialize(node);
+            if (serializers.Contains(type))
+                return serializers.Get(type).Deserialize(node);
 
             if(!(node is JsonObject))
                 throw new JsonException("Unable to read object from non object node");
@@ -141,7 +117,7 @@ namespace GoorooMania.Japi.Json
                 object value;
                 if(loader != null) {
                     MethodInfo method = type.GetMethod(loader, BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
-                    value = method.Invoke(null, new object[] { @object[key] });
+                    value = method.Invoke(null, new object[] { @object.SelectValue<string>(key) });
                 }
                 else {
                     value = Read(property.PropertyType, @object[key], VariantAttribute.IsVariant(property));
@@ -151,10 +127,10 @@ namespace GoorooMania.Japi.Json
             return instance;
         }
 
-        static object ReadArray(Type elementtype, JsonArray node) {
+        object ReadArray(Type elementtype, JsonArray node, bool variant) {
             Array instance = Array.CreateInstance(elementtype, node.ItemCount);
             for(int i = 0; i < node.ItemCount; ++i)
-                instance.SetValue(Read(elementtype, node[i]), i);
+                instance.SetValue(Read(elementtype, node[i], variant), i);
             return instance;
         }
 
@@ -163,7 +139,7 @@ namespace GoorooMania.Japi.Json
         /// </summary>
         /// <param name="object"></param>
         /// <returns></returns>
-        public static JsonNode Write(object @object) {
+        public JsonNode Write(object @object) {
             return Write(@object, false);
         }
 
@@ -173,7 +149,7 @@ namespace GoorooMania.Japi.Json
         /// <param name="object"></param>
         /// <param name="variant"></param>
         /// <returns></returns>
-        static JsonNode Write(object @object, bool variant) {
+        JsonNode Write(object @object, bool variant) {
             bool iscustom = @object is ICustomJsonSerialization;
             if (iscustom) {
                 JsonObject jsonobject = new JsonObject {
@@ -205,8 +181,8 @@ namespace GoorooMania.Japi.Json
                 return jsonobject;
             }
 
-            if (customserializers.ContainsKey(@object.GetType()))
-                return customserializers[@object.GetType()].Serialize(@object);
+            if (serializers.Contains(@object.GetType()))
+                return serializers.Get(@object.GetType()).Serialize(@object);
 
             JsonObject json = new JsonObject();
             foreach(PropertyInfo property in @object.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance)) {
@@ -219,7 +195,7 @@ namespace GoorooMania.Japi.Json
             return json;
         }
 
-        static JsonArray WriteArray(Array array, bool variant = false) {
+        JsonArray WriteArray(Array array, bool variant = false) {
             JsonArray json = new JsonArray();
             for(int i = 0; i < array.Length; ++i)
                 json.Add(Write(array.GetValue(i), variant));

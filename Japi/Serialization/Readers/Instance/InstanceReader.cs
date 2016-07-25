@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
-using GoorooMania.Japi.Serialization.Data;
-using GoorooMania.Japi.Serialization.Transformation;
+using NightlyCode.Japi.Serialization.Data;
+using NightlyCode.Japi.Serialization.Transformation;
 
-namespace GoorooMania.Japi.Serialization.Readers.Instance {
+namespace NightlyCode.Japi.Serialization.Readers.Instance {
 
     /// <summary>
     /// reads instances from java structure data

@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using GoorooMania.Japi.Serialization.Data;
+﻿using System.Collections.Generic;
+using NightlyCode.Japi.Serialization.Data;
 
-namespace GoorooMania.Japi.Serialization.Transformation {
+namespace NightlyCode.Japi.Serialization.Transformation {
 
     /// <summary>
     /// reduces a java object structure by transforming known structures

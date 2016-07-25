@@ -4,15 +4,29 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace GoorooMania.Japi.Json.Expressions {
+namespace NightlyCode.Japi.Json.Expressions {
+
+    /// <summary>
+    /// serializes <see cref="MemberExpression"/>s
+    /// </summary>
     public class MemberExpressionSerializer : ISpecificExpressionSerializer {
+        readonly IJsonSerializer serializer;
+
+        /// <summary>
+        /// creates a new <see cref="MemberExpressionSerializer"/>
+        /// </summary>
+        /// <param name="serializer"></param>
+        public MemberExpressionSerializer(IJsonSerializer serializer) {
+            this.serializer = serializer;
+        }
+
         public void Serialize(JsonObject json, Expression expression) {
             MemberExpression member = (MemberExpression)expression;
 
             if(member.Expression.NodeType == ExpressionType.Parameter) {
                 json["expressiontype"] = new JsonValue("parameter");
-                json["expression"] = JsonSerializer.Write(member.Expression);
-                json["member"] = JsonSerializer.Write(member.Member);
+                json["expression"] = serializer.Write(member.Expression);
+                json["member"] = serializer.Write(member.Member);
             }
             else {
                 object host = GetHost(member.Expression);
@@ -24,24 +38,24 @@ namespace GoorooMania.Japi.Json.Expressions {
                     value = ((FieldInfo)member.Member).GetValue(host);
                 else throw new NotImplementedException();
 
-                json["value"] = JsonSerializer.Write(value);
+                json["value"] = serializer.Write(value);
                 if (value != null)
-                    json["valuetype"] = JsonSerializer.Write(value.GetType());
+                    json["valuetype"] = serializer.Write(value.GetType());
             }
         }
 
         public Expression Deserialize(JsonObject json) {
             if(json.SelectValue<string>("expressiontype") == "parameter") {
                 return Expression.MakeMemberAccess(
-                    JsonSerializer.Read<Expression>(json["expression"]),
-                    JsonSerializer.Read<MemberInfo>(json["member"])
+                    serializer.Read<Expression>(json["expression"]),
+                    serializer.Read<MemberInfo>(json["member"])
                     );
             }
 
             if (json.ContainsKey("valuetype"))
             {
-                Type type = JsonSerializer.Read<Type>(json["valuetype"]);
-                return Expression.Constant(JsonSerializer.Read(type, json["value"]));
+                Type type = serializer.Read<Type>(json["valuetype"]);
+                return Expression.Constant(serializer.Read(type, json["value"]));
             }
             return Expression.Constant(null);
         }

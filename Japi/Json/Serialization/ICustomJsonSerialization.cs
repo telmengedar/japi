@@ -1,4 +1,4 @@
-﻿namespace GoorooMania.Japi.Json.Serialization {
+﻿namespace NightlyCode.Japi.Json.Serialization {
 
     /// <summary>
     /// interface for objects which support custom json serialization

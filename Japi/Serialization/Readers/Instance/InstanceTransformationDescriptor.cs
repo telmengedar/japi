@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace GoorooMania.Japi.Serialization.Readers.Instance {
+namespace NightlyCode.Japi.Serialization.Readers.Instance {
 
     /// <summary>
     /// descriptor for instance transformation

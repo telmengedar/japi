@@ -1,9 +1,9 @@
 ﻿using System.IO;
 using System.Xml;
-using GoorooMania.Japi.Serialization.Conversion;
-using GoorooMania.Japi.Serialization.Transformation;
+using NightlyCode.Japi.Serialization.Conversion;
+using NightlyCode.Japi.Serialization.Transformation;
 
-namespace GoorooMania.Japi.Serialization.Readers {
+namespace NightlyCode.Japi.Serialization.Readers {
 
     /// <summary>
     /// reads xml from java object streams

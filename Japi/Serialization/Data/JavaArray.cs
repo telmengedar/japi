@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace GoorooMania.Japi.Serialization.Data {
+namespace NightlyCode.Japi.Serialization.Data {
 
     /// <summary>
     /// array of java data

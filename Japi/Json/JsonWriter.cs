@@ -2,22 +2,21 @@
 using System.Globalization;
 using System.IO;
 using System.Text;
-using GoorooMania.Japi.Extern;
+using NightlyCode.Core.Conversion;
 
-namespace GoorooMania.Japi.Json
+namespace NightlyCode.Japi.Json
 {
-
     /// <summary>
-    /// json handling
+    /// writes and reads <see cref="JsonNode"/>s
     /// </summary>
-    public static class JsonWriter {
+    internal class JsonWriter : IJsonWriter {
 
         /// <summary>
         /// reads json data
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        public static JsonNode Read(string data) { 
+        public JsonNode Read(string data) { 
             using(StringReader reader = new StringReader(data)) {
                 return Read(reader);
             }
@@ -28,31 +27,31 @@ namespace GoorooMania.Japi.Json
         /// </summary>
         /// <param name="stream"></param>
         /// <returns></returns>
-        public static JsonNode Read(Stream stream) {
+        public JsonNode Read(Stream stream) {
             using(StreamReader reader = new StreamReader(stream, Encoding.UTF8, true))
                 return Read(reader);
         }
 
-        static JsonNode Read(TextReader reader) {
+        JsonNode Read(TextReader reader) {
             SkipWhiteSpaces(reader);
             return ReadValue(reader);
         }
 
-        static char PeekCharacter(TextReader sr) {
+        char PeekCharacter(TextReader sr) {
             int read = sr.Peek();
             if(read == -1)
                 throw new JsonException("unexpected stream end");
             return (char)read;
         }
 
-        static char ReadCharacter(TextReader sr) {
+        char ReadCharacter(TextReader sr) {
             int read = sr.Read();
             if(read == -1)
                 throw new JsonException("unexpected stream end");
             return (char)read;
         }
 
-        static JsonObject ReadDictionary(TextReader reader) {
+        JsonObject ReadDictionary(TextReader reader) {
             JsonObject json = new JsonObject();
             do {
                 SkipWhiteSpaces(reader);
@@ -82,7 +81,7 @@ namespace GoorooMania.Japi.Json
             } while(true);
         }
 
-        static JsonNode ReadValue(TextReader reader) {
+        JsonNode ReadValue(TextReader reader) {
             char character = PeekCharacter(reader);
             switch(character) {
                 case '{':
@@ -100,7 +99,7 @@ namespace GoorooMania.Japi.Json
             }
         }
 
-        static JsonArray ReadArray(TextReader reader) {
+        JsonArray ReadArray(TextReader reader) {
             JsonArray json = new JsonArray();
 
             SkipWhiteSpaces(reader);
@@ -125,7 +124,7 @@ namespace GoorooMania.Japi.Json
             } while(true);
         }
 
-        static string ReadString(TextReader reader, char delimiter) {
+        string ReadString(TextReader reader, char delimiter) {
             StringBuilder buffer = new StringBuilder();
             do {
                 char character = ReadCharacter(reader);
@@ -164,13 +163,13 @@ namespace GoorooMania.Japi.Json
             } while(true);
         }
 
-        static char ReadUnicodeCharacter(TextReader reader) {
+        char ReadUnicodeCharacter(TextReader reader) {
             char[] characters = new char[4];
             reader.Read(characters, 0, 4);
             return (char)int.Parse(new string(characters), NumberStyles.HexNumber);
         }
 
-        static object ReadValueType(TextReader reader) {
+        object ReadValueType(TextReader reader) {
             StringBuilder buffer = new StringBuilder();
 
             do {
@@ -209,7 +208,7 @@ namespace GoorooMania.Japi.Json
             
         }
 
-        static string ReadKey(TextReader reader) {
+        string ReadKey(TextReader reader) {
             StringBuilder key = new StringBuilder();
 
             char delimiter = PeekCharacter(reader);
@@ -228,7 +227,7 @@ namespace GoorooMania.Japi.Json
             } while(true);
         }
 
-        static void SkipWhiteSpaces(TextReader reader) {
+        void SkipWhiteSpaces(TextReader reader) {
             do {
                 int read = reader.Peek();
                 if(read == -1)
@@ -248,7 +247,7 @@ namespace GoorooMania.Japi.Json
         /// </summary>
         /// <param name="node"></param>
         /// <returns></returns>
-        public static string WriteString(JsonNode node) {
+        public string WriteString(JsonNode node) {
             using (MemoryStream ms = new MemoryStream())
             {
                 Write(node, ms);
@@ -261,12 +260,12 @@ namespace GoorooMania.Japi.Json
         /// </summary>
         /// <param name="node"></param>
         /// <param name="target"></param>
-        public static void Write(JsonNode node, Stream target) {
+        public void Write(JsonNode node, Stream target) {
             using(TextWriter writer = new StreamWriter(target, new UTF8Encoding(false)))
                 Write(node, writer);
         }
 
-        static void Write(JsonNode node, TextWriter writer) {
+        void Write(JsonNode node, TextWriter writer) {
             if(node is JsonArray)
                 WriteArray((JsonArray)node, writer);
             else if(node is JsonObject)
@@ -279,7 +278,7 @@ namespace GoorooMania.Japi.Json
         /// serializes the object to string
         /// </summary>
         /// <returns></returns>
-        static void WriteObject(JsonObject json, TextWriter writer) {
+        void WriteObject(JsonObject json, TextWriter writer) {
             writer.Write("{");
             bool flag = false;
             foreach(string key in json.Keys) {
@@ -291,7 +290,7 @@ namespace GoorooMania.Japi.Json
             writer.Write("}");
         }
 
-        static void WriteArray(JsonArray array, TextWriter writer) {
+        void WriteArray(JsonArray array, TextWriter writer) {
             writer.Write("[");
             bool flag = false;
             if(array.ItemCount > 0) {
@@ -305,7 +304,7 @@ namespace GoorooMania.Japi.Json
             writer.Write("]");
         }
 
-        static void Serialize(string key, JsonNode value, TextWriter writer) {
+        void Serialize(string key, JsonNode value, TextWriter writer) {
             writer.Write("\"");
             writer.Write(key);
             writer.Write("\"");
@@ -313,7 +312,7 @@ namespace GoorooMania.Japi.Json
             Write(value, writer);
         }
 
-        static void WriteValue(JsonValue jsonvalue, TextWriter writer) {
+        void WriteValue(JsonValue jsonvalue, TextWriter writer) {
             object value = jsonvalue.Value;
             if(value is Version)
                 value = value.ToString();
@@ -349,7 +348,7 @@ namespace GoorooMania.Japi.Json
                 throw new InvalidOperationException("Type not supported");
         }
 
-        static string Escape(string data) {
+        string Escape(string data) {
             StringBuilder result = new StringBuilder();
             foreach(char character in data) {
                 if(character < 0x20 || character == '\\' || character == '\"')

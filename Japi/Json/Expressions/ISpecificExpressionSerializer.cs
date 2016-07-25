@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace GoorooMania.Japi.Json.Expressions {
+namespace NightlyCode.Japi.Json.Expressions {
 
     /// <summary>
     /// interface for a serializer of specific expression types

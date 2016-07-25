@@ -1,8 +1,21 @@
 ﻿using System;
 using System.Linq.Expressions;
 
-namespace GoorooMania.Japi.Json.Serialization.Handler {
+namespace NightlyCode.Japi.Json.Serialization.Handler {
+
+    /// <summary>
+    /// serializes <see cref="SymbolDocumentInfo"/>s
+    /// </summary>
     public class SymbolDocumentInfoSerializer : IJSonSerializationHandler {
+        readonly IJsonSerializer serializer;
+
+        /// <summary>
+        /// creates a new <see cref="SymbolDocumentInfoSerializer"/>
+        /// </summary>
+        /// <param name="serializer"></param>
+        public SymbolDocumentInfoSerializer(IJsonSerializer serializer) {
+            this.serializer = serializer;
+        }
 
         public JsonNode Serialize(object value) {
             SymbolDocumentInfo document = (SymbolDocumentInfo)value;
@@ -18,9 +31,9 @@ namespace GoorooMania.Japi.Json.Serialization.Handler {
         public object Deserialize(JsonNode json) {
             return Expression.SymbolDocument(
                 json.SelectValue<string>("filename"),
-                JsonSerializer.Read<Guid>(json["language"]),
-                JsonSerializer.Read<Guid>(json["languagevendor"]),
-                JsonSerializer.Read<Guid>(json["documenttype"])
+                serializer.Read<Guid>(json["language"]),
+                serializer.Read<Guid>(json["languagevendor"]),
+                serializer.Read<Guid>(json["documenttype"])
                 );
         }
     }

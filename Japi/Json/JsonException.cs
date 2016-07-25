@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace GoorooMania.Japi.Json
+namespace NightlyCode.Japi.Json
 {
 
     /// <summary>

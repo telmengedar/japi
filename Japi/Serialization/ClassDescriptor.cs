@@ -1,6 +1,6 @@
-﻿using GoorooMania.Japi.Serialization.Data;
+﻿using NightlyCode.Japi.Serialization.Data;
 
-namespace GoorooMania.Japi.Serialization {
+namespace NightlyCode.Japi.Serialization {
 
     /// <summary>
     /// descriptor for class data

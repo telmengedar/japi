@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using GoorooMania.Japi.Extern;
+using NightlyCode.Core.Conversion;
 
-namespace GoorooMania.Japi.Json
+namespace NightlyCode.Japi.Json
 {
 
     /// <summary>

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace GoorooMania.Japi.Serialization.Data.Path {
+namespace NightlyCode.Japi.Serialization.Data.Path {
 
     /// <summary>
     /// parses a path for use with node selection on java data elements

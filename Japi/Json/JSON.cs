@@ -1,12 +1,20 @@
 ﻿using System;
 using System.IO;
 
-namespace GoorooMania.Japi.Json {
+namespace NightlyCode.Japi.Json {
 
     /// <summary>
     /// base operations for json data
     /// </summary>
     public static class JSON {
+        static readonly IJsonSerializer serializer;
+        static readonly IJsonWriter writer;
+
+        static JSON() {
+            Resolver.Resolve();
+            serializer = new JsonSerializer();
+            writer = new JsonWriter();
+        }
 
         /// <summary>
         /// read data from a json stream
@@ -36,7 +44,7 @@ namespace GoorooMania.Japi.Json {
         /// <param name="stream">stream from which to read</param>
         /// <returns>deserialized data</returns>
         public static object Read(Type type, Stream stream) {
-            return JsonSerializer.Read(type, JsonWriter.Read(stream));
+            return serializer.Read(type, writer.Read(stream));
         }
 
         /// <summary>
@@ -47,7 +55,7 @@ namespace GoorooMania.Japi.Json {
         /// <returns>deserialized data</returns>
         public static object Read(Type type, string data)
         {
-            return JsonSerializer.Read(type, JsonWriter.Read(data));
+            return serializer.Read(type, writer.Read(data));
         }
 
         /// <summary>
@@ -56,7 +64,7 @@ namespace GoorooMania.Japi.Json {
         /// <param name="object">object to write</param>
         /// <param name="stream">stream to write to</param>
         public static void Write(object @object, Stream stream) {
-            JsonWriter.Write(JsonSerializer.Write(@object), stream);
+            writer.Write(serializer.Write(@object), stream);
         }
 
         /// <summary>
@@ -64,7 +72,43 @@ namespace GoorooMania.Japi.Json {
         /// </summary>
         /// <param name="object">object to write</param>
         public static string WriteString(object @object) {
-            return JsonWriter.WriteString(JsonSerializer.Write(@object));
+            return writer.WriteString(serializer.Write(@object));
+        }
+
+        /// <summary>
+        /// writes a <see cref="JsonNode"/> to a stream
+        /// </summary>
+        /// <param name="node">node to be written</param>
+        /// <param name="target">stream to write node into</param>
+        public static void WriteNodeToStream(JsonNode node, Stream target) {
+            writer.Write(node, target);
+        }
+
+        /// <summary>
+        /// writes a <see cref="JsonNode"/> to a string
+        /// </summary>
+        /// <param name="node">node to write</param>
+        /// <returns>json string with node data</returns>
+        public static string WriteNodeToString(JsonNode node) {
+            return writer.WriteString(node);
+        }
+
+        /// <summary>
+        /// reads a json node from a stream
+        /// </summary>
+        /// <param name="stream">stream to read json node from</param>
+        /// <returns></returns>
+        public static JsonNode ReadNodeFromStream(Stream stream) {
+            return writer.Read(stream);
+        }
+
+        /// <summary>
+        /// reads a json node from a string
+        /// </summary>
+        /// <param name="data">string containing json data</param>
+        /// <returns></returns>
+        public static JsonNode ReadNodeFromString(string data) {
+            return writer.Read(data);
         }
     }
 }

@@ -1,21 +1,35 @@
 ﻿using System.Linq.Expressions;
 using System.Reflection;
 
-namespace GoorooMania.Japi.Json.Serialization.Handler {
+namespace NightlyCode.Japi.Json.Serialization.Handler {
+
+    /// <summary>
+    /// serializes <see cref="MemberAssignment"/>s
+    /// </summary>
     public class MemberAssignmentSerializer : IJSonSerializationHandler {
+        readonly IJsonSerializer serializer;
+
+        /// <summary>
+        /// creates a new <see cref="MemberAssignmentSerializer"/>
+        /// </summary>
+        /// <param name="serializer"></param>
+        public MemberAssignmentSerializer(IJsonSerializer serializer) {
+            this.serializer = serializer;
+        }
+
         public JsonNode Serialize(object value) {
             MemberAssignment assignment = (MemberAssignment)value;
             return new JsonObject {
                 ["type"]=new JsonValue("assignment"),
-                ["member"] = JsonSerializer.Write(assignment.Member),
-                ["expression"] = JsonSerializer.Write(assignment.Expression)
+                ["member"] = serializer.Write(assignment.Member),
+                ["expression"] = serializer.Write(assignment.Expression)
             };
         }
 
         public object Deserialize(JsonNode json) {
             return Expression.Bind(
-                JsonSerializer.Read<MemberInfo>(json["member"]),
-                JsonSerializer.Read<Expression>(json["expression"])
+                serializer.Read<MemberInfo>(json["member"]),
+                serializer.Read<Expression>(json["expression"])
                 );
         }
     }

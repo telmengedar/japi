@@ -1,9 +1,9 @@
 ﻿using System.IO;
-using GoorooMania.Japi.Serialization.Conversion;
-using GoorooMania.Japi.Serialization.Data;
-using GoorooMania.Japi.Serialization.Transformation;
+using NightlyCode.Japi.Serialization.Conversion;
+using NightlyCode.Japi.Serialization.Data;
+using NightlyCode.Japi.Serialization.Transformation;
 
-namespace GoorooMania.Japi.Serialization.Readers {
+namespace NightlyCode.Japi.Serialization.Readers {
 
     /// <summary>
     /// reads objects from object streams

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace GoorooMania.Japi.Json
+namespace NightlyCode.Japi.Json
 {
 
     /// <summary>

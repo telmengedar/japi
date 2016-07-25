@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.IO;
 using System.Xml;
-using GoorooMania.Japi.Serialization.Readers;
+using NightlyCode.Japi.Serialization.Readers;
 using NUnit.Framework;
 
 namespace GoorooMania.Japi.Tests {

@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Reflection;
 using System.Linq;
+using System.Reflection;
 
-namespace GoorooMania.Japi.Json.Serialization.Handler {
+namespace NightlyCode.Japi.Json.Serialization.Handler {
     public class TypeSerializer : IJSonSerializationHandler {
 
         public JsonNode Serialize(object value) {

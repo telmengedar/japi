@@ -1,8 +1,8 @@
 ﻿using System.Globalization;
-using GoorooMania.Japi.Serialization.Data;
-using GoorooMania.Japi.Serialization.Data.Path;
+using NightlyCode.Japi.Serialization.Data;
+using NightlyCode.Japi.Serialization.Data.Path;
 
-namespace GoorooMania.Japi.Serialization.Transformation {
+namespace NightlyCode.Japi.Serialization.Transformation {
 
     /// <summary>
     /// writer for locale information (culture-info)

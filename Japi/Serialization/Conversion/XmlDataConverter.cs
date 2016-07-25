@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
-using GoorooMania.Japi.Extern;
-using GoorooMania.Japi.Serialization.Data;
+using NightlyCode.Core.Helpers;
+using NightlyCode.Japi.Serialization.Data;
 
-namespace GoorooMania.Japi.Serialization.Conversion {
+namespace NightlyCode.Japi.Serialization.Conversion {
 
     /// <summary>
     /// writes xml from java data structures

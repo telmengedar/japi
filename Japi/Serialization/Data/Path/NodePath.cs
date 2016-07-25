@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace GoorooMania.Japi.Serialization.Data.Path {
+namespace NightlyCode.Japi.Serialization.Data.Path {
 
     /// <summary>
     /// path to node

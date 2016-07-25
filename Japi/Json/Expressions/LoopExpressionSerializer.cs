@@ -1,20 +1,34 @@
 ﻿using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace GoorooMania.Japi.Json.Expressions {
+namespace NightlyCode.Japi.Json.Expressions {
+
+    /// <summary>
+    /// serializes <see cref="LoopExpression"/>s
+    /// </summary>
     public class LoopExpressionSerializer : ISpecificExpressionSerializer {
+        IJsonSerializer serializer;
+
+        /// <summary>
+        /// creates a new <see cref="LoopExpressionSerializer"/>
+        /// </summary>
+        /// <param name="serializer"></param>
+        public LoopExpressionSerializer(IJsonSerializer serializer) {
+            this.serializer = serializer;
+        }
+
         public void Serialize(JsonObject json, Expression expression) {
             LoopExpression loop = (LoopExpression)expression;
-            json["body"] = JsonSerializer.Write(loop.Body);
-            json["break"] = JsonSerializer.Write(loop.BreakLabel);
-            json["continue"] = JsonSerializer.Write(loop.ContinueLabel);
+            json["body"] = serializer.Write(loop.Body);
+            json["break"] = serializer.Write(loop.BreakLabel);
+            json["continue"] = serializer.Write(loop.ContinueLabel);
         }
 
         public Expression Deserialize(JsonObject json) {
             return Expression.Loop(
-                JsonSerializer.Read<Expression>(json["body"]),
-                JsonSerializer.Read<LabelTarget>(json["break"]),
-                JsonSerializer.Read<LabelTarget>(json["continue"])
+                serializer.Read<Expression>(json["body"]),
+                serializer.Read<LabelTarget>(json["break"]),
+                serializer.Read<LabelTarget>(json["continue"])
                 );
         }
 

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GoorooMania.Japi.Serialization.Readers.Instance {
+namespace NightlyCode.Japi.Serialization.Readers.Instance {
 
     /// <summary>
     /// used to specify a type mapped to an object

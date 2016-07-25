@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace GoorooMania.Japi.Json {
+namespace NightlyCode.Japi.Json {
 
     /// <summary>
     /// used to specify a json path for a property

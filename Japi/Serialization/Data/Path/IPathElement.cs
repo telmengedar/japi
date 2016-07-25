@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace GoorooMania.Japi.Serialization.Data.Path {
+namespace NightlyCode.Japi.Serialization.Data.Path {
 
     /// <summary>
     /// identification interface for a path element

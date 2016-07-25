@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace GoorooMania.Japi.Serialization {
+namespace NightlyCode.Japi.Serialization {
 
     /// <summary>
     /// indicates that the stream is corrupted

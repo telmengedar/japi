@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GoorooMania.Japi.Serialization {
+namespace NightlyCode.Japi.Serialization {
 
     /// <summary>
     /// Bit masks for ObjectStreamClass flag

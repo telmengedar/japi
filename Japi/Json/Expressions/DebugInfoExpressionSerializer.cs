@@ -1,8 +1,22 @@
 ﻿using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace GoorooMania.Japi.Json.Expressions {
+namespace NightlyCode.Japi.Json.Expressions {
+
+    /// <summary>
+    /// serializes <see cref="DebugInfoExpression"/>s
+    /// </summary>
     public class DebugInfoExpressionSerializer : ISpecificExpressionSerializer {
+        readonly IJsonSerializer serializer;
+
+        /// <summary>
+        /// creates a new <see cref="DebugInfoExpressionSerializer"/>
+        /// </summary>
+        /// <param name="serializer"></param>
+        public DebugInfoExpressionSerializer(IJsonSerializer serializer) {
+            this.serializer = serializer;
+        }
+
         public void Serialize(JsonObject json, Expression expression) {
             DebugInfoExpression debuginfo = (DebugInfoExpression)expression;
 
@@ -10,13 +24,13 @@ namespace GoorooMania.Japi.Json.Expressions {
             json["startcolumn"] = new JsonValue(debuginfo.StartColumn);
             json["endline"] = new JsonValue(debuginfo.EndLine);
             json["endcolumn"] = new JsonValue(debuginfo.EndColumn);
-            json["document"] = JsonSerializer.Write(debuginfo.Document);
+            json["document"] = serializer.Write(debuginfo.Document);
             json["isclear"] = new JsonValue(debuginfo.IsClear);
         }
 
         public Expression Deserialize(JsonObject json) {
             return Expression.DebugInfo(
-                JsonSerializer.Read<SymbolDocumentInfo>(json["document"]),
+                serializer.Read<SymbolDocumentInfo>(json["document"]),
                 json.SelectValue<int>("startline"),
                 json.SelectValue<int>("startcolumn"),
                 json.SelectValue<int>("endline"),

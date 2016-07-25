@@ -1,7 +1,7 @@
 ﻿using System.Linq;
-using GoorooMania.Japi.Serialization.Data;
+using NightlyCode.Japi.Serialization.Data;
 
-namespace GoorooMania.Japi.Serialization.Transformation {
+namespace NightlyCode.Japi.Serialization.Transformation {
 
     /// <summary>
     /// transforms a serialized array list to an array type

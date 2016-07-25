@@ -1,6 +1,6 @@
-﻿using GoorooMania.Japi.Serialization.Data;
+﻿using NightlyCode.Japi.Serialization.Data;
 
-namespace GoorooMania.Japi.Serialization.Transformation {
+namespace NightlyCode.Japi.Serialization.Transformation {
 
     /// <summary>
     /// transforms hashmap data to meaningful structures

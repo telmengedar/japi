@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using GoorooMania.Japi.Serialization.Transformation;
+using NightlyCode.Japi.Serialization.Transformation;
 
-namespace GoorooMania.Japi.Serialization.Readers.Instance
+namespace NightlyCode.Japi.Serialization.Readers.Instance
 {
 
     /// <summary>

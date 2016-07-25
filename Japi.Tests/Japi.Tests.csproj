@@ -44,7 +44,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data1.cs" />
+    <Compile Include="Data2.cs" />
     <Compile Include="DataPathParserTests.cs" />
+    <Compile Include="IData.cs" />
     <Compile Include="InstanceReaderTest.cs" />
     <Compile Include="JsonTests.cs" />
     <Compile Include="ObjectStreamTests.cs" />
@@ -53,6 +56,7 @@
     <Compile Include="ResourceData.cs" />
     <Compile Include="Resources.cs" />
     <Compile Include="TestObject.cs" />
+    <Compile Include="VariantClass.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Japi\Japi.csproj">

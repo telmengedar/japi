@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace GoorooMania.Japi.Serialization.Transformation {
+namespace NightlyCode.Japi.Serialization.Transformation {
 
     /// <summary>
     /// base implementation of a transformation table

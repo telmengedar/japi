@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using GoorooMania.Japi.Serialization.Data;
+using NightlyCode.Japi.Serialization.Data;
 
-namespace GoorooMania.Japi.Serialization {
+namespace NightlyCode.Japi.Serialization {
 
     /// <summary>
     /// stream for java serialized data

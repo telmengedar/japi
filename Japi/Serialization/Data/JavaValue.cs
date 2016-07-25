@@ -1,7 +1,7 @@
 ﻿using System;
-using GoorooMania.Japi.Extern;
+using NightlyCode.Core.Conversion;
 
-namespace GoorooMania.Japi.Serialization.Data {
+namespace NightlyCode.Japi.Serialization.Data {
 
     /// <summary>
     /// single value from java environment

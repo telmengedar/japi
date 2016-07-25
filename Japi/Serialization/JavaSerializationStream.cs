@@ -2,7 +2,7 @@
 using System.IO;
 using System.Text;
 
-namespace GoorooMania.Japi.Serialization {
+namespace NightlyCode.Japi.Serialization {
 
     /// <summary>
     /// stream for reading binary data

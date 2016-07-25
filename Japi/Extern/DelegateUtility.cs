@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GoorooMania.Japi.Extern {
+namespace NightlyCode.Japi.Extern {
     public static class DelegateUtility {
         public static T Cast<T>(Delegate source) where T : class {
             return Cast(source, typeof(T)) as T;

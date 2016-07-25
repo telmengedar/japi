@@ -2,12 +2,21 @@
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace GoorooMania.Japi.Json.Expressions {
+namespace NightlyCode.Japi.Json.Expressions {
 
     /// <summary>
-    /// serializes binary expressions
+    /// serializes <see cref="BinaryExpression"/>s
     /// </summary>
     public class BinaryExpressionSerializer : ISpecificExpressionSerializer {
+        readonly IJsonSerializer serializer;
+
+        /// <summary>
+        /// creates a new <see cref="BinaryExpressionSerializer"/>
+        /// </summary>
+        /// <param name="serializer"></param>
+        public BinaryExpressionSerializer(IJsonSerializer serializer) {
+            this.serializer = serializer;
+        }
 
         /// <summary>
         /// serializes an expression to json
@@ -16,10 +25,10 @@ namespace GoorooMania.Japi.Json.Expressions {
         /// <param name="expression"></param>
         public void Serialize(JsonObject json, Expression expression) {
             BinaryExpression e = (BinaryExpression)expression;
-            json["left"] = JsonSerializer.Write(e.Left);
-            json["right"] = JsonSerializer.Write(e.Right);
-            json["method"] = JsonSerializer.Write(e.Method);
-            json["conversion"] = JsonSerializer.Write(e.Conversion);
+            json["left"] = serializer.Write(e.Left);
+            json["right"] = serializer.Write(e.Right);
+            json["method"] = serializer.Write(e.Method);
+            json["conversion"] = serializer.Write(e.Conversion);
             json["isliftedtonull"] = new JsonValue(e.IsLiftedToNull);
         }
 
@@ -31,11 +40,11 @@ namespace GoorooMania.Japi.Json.Expressions {
         public Expression Deserialize(JsonObject json) {
             return Expression.MakeBinary(
                 json.SelectValue<ExpressionType>("type"),
-                JsonSerializer.Read<Expression>(json["left"]),
-                JsonSerializer.Read<Expression>(json["right"]),
+                serializer.Read<Expression>(json["left"]),
+                serializer.Read<Expression>(json["right"]),
                 json.SelectValue<bool>("isliftedtonull"),
-                JsonSerializer.Read<MethodInfo>(json["method"]),
-                JsonSerializer.Read<LambdaExpression>(json["conversion"])
+                serializer.Read<MethodInfo>(json["method"]),
+                serializer.Read<LambdaExpression>(json["conversion"])
                 );
         }
 

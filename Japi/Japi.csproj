@@ -7,8 +7,8 @@
     <ProjectGuid>{0A63BE01-94AF-48AC-AFBD-A5D4F93FD08E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GoorooMania.Japi</RootNamespace>
-    <AssemblyName>GoorooMania.Japi</AssemblyName>
+    <RootNamespace>NightlyCode.Japi</RootNamespace>
+    <AssemblyName>NightlyCode.Japi</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -39,6 +39,9 @@
     <AssemblyOriginatorKeyFile>gooroomania.snk.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="NightlyCode.Core">
+      <HintPath>..\..\..\Compiled\Library\NightlyCode.Core.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -48,11 +51,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extern\ConversionKey.cs" />
-    <Compile Include="Extern\Converter.cs" />
     <Compile Include="Extern\DelegateUtility.cs" />
     <Compile Include="Extern\DynamicLibrary.cs" />
-    <Compile Include="Extern\TypeHandlerLookup.cs" />
     <Compile Include="Json\Expressions\BinaryExpressionSerializer.cs" />
     <Compile Include="Json\Expressions\BlockExpressionSerializer.cs" />
     <Compile Include="Json\Expressions\ConditionalExpressionSerializer.cs" />
@@ -80,6 +80,8 @@
     <Compile Include="Json\Expressions\TryExpressionSerializer.cs" />
     <Compile Include="Json\Expressions\TypeBinaryExpressionSerializer.cs" />
     <Compile Include="Json\Expressions\UnaryExpressionSerializer.cs" />
+    <Compile Include="Json\IJsonSerializer.cs" />
+    <Compile Include="Json\IJsonWriter.cs" />
     <Compile Include="Json\JSON.cs" />
     <Compile Include="Json\JsonKeyAttribute.cs" />
     <Compile Include="Json\JsonLoaderAttribute.cs" />
@@ -90,6 +92,7 @@
     <Compile Include="Json\JsonException.cs" />
     <Compile Include="Json\JsonNode.cs" />
     <Compile Include="Json\JsonObject.cs" />
+    <Compile Include="Json\Serialization\CustomerSerializerCollection.cs" />
     <Compile Include="Json\Serialization\Handler\CatchBlockSerializer.cs" />
     <Compile Include="Json\Serialization\Handler\ConstructorInfoSerializer.cs" />
     <Compile Include="Json\Serialization\Handler\ElementInitSerializer.cs" />
@@ -110,6 +113,7 @@
     <Compile Include="Json\Serialization\IJSonSerializationHandler.cs" />
     <Compile Include="Json\Serialization\JSonSerializationHandler.cs" />
     <Compile Include="Json\VariantAttribute.cs" />
+    <Compile Include="Resolver.cs" />
     <Compile Include="Serialization\Conversion\IDataConverter.cs" />
     <Compile Include="Serialization\Data\Path\DataOperations.cs" />
     <Compile Include="Serialization\Data\Path\DataPathParser.cs" />
@@ -153,11 +157,15 @@
     <Compile Include="Serialization\Readers\XmlObjectReader.cs" />
     <Compile Include="Serialization\StreamCorruptedException.cs" />
     <Compile Include="Serialization\Tag.cs" />
-    <Compile Include="Extern\XMLExtensions.cs" />
     <Compile Include="Serialization\Conversion\XmlDataConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="gooroomania.snk.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\..\..\Compiled\Library\NightlyCode.Core.dll">
+      <Link>Extern\NightlyCode.Core.dll</Link>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

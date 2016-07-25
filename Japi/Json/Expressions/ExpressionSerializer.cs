@@ -1,51 +1,52 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using GoorooMania.Japi.Json.Serialization;
+using NightlyCode.Japi.Json.Serialization;
 
-namespace GoorooMania.Japi.Json.Expressions {
+namespace NightlyCode.Japi.Json.Expressions {
 
     /// <summary>
     /// serialization handler for expressions
     /// </summary>
-    /// <typeparam name="T"></typeparam>
     public class ExpressionSerializer : JSonSerializationHandler<Expression> {
+        readonly IJsonSerializer serializer;
         readonly Dictionary<ExpressionType, ISpecificExpressionSerializer> serializers = new Dictionary<ExpressionType, ISpecificExpressionSerializer>();
 
         /// <summary>
         /// creates a new expression serializer
         /// </summary>
-        public ExpressionSerializer() {
-            AddSerializer(new BinaryExpressionSerializer());
-            AddSerializer(new BlockExpressionSerializer());
-            AddSerializer(new ConditionalExpressionSerializer());
-            AddSerializer(new ConstantExpressionSerializer());
-            AddSerializer(new DebugInfoExpressionSerializer());
-            AddSerializer(new DefaultExpressionSerializer());
-            AddSerializer(new IndexExpressionSerializer());
-            AddSerializer(new LambdaExpressionSerializer());
-            AddSerializer(new InvocationExpressionSerializer());
-            AddSerializer(new UnaryExpressionSerializer());
-            AddSerializer(new LabelExpressionSerializer());
-            AddSerializer(new ListInitExpressionSerializer());
-            AddSerializer(new LoopExpressionSerializer());
-            AddSerializer(new MemberExpressionSerializer());
-            AddSerializer(new GotoExpressionSerializer());
-            AddSerializer(new MemberInitExpressionSerializer());
-            AddSerializer(new MethodCallExpressionSerializer());
-            AddSerializer(new NewArrayExpressionSerializer());
-            AddSerializer(new NewExpressionSerializer());
-            AddSerializer(new ParameterExpressionSerializer());
-            AddSerializer(new RuntimeVariablesExpressionSerializer());
-            AddSerializer(new SwitchExpressionSerializer());
-            AddSerializer(new TryExpressionSerializer());
-            AddSerializer(new TypeBinaryExpressionSerializer());
-            AddSerializer(new DynamicExpressionSerializer());
+        public ExpressionSerializer(IJsonSerializer serializer) {
+            this.serializer = serializer;
+            AddSerializer(new BinaryExpressionSerializer(serializer));
+            AddSerializer(new BlockExpressionSerializer(serializer));
+            AddSerializer(new ConditionalExpressionSerializer(serializer));
+            AddSerializer(new ConstantExpressionSerializer(serializer));
+            AddSerializer(new DebugInfoExpressionSerializer(serializer));
+            AddSerializer(new DefaultExpressionSerializer(serializer));
+            AddSerializer(new IndexExpressionSerializer(serializer));
+            AddSerializer(new LambdaExpressionSerializer(serializer));
+            AddSerializer(new InvocationExpressionSerializer(serializer));
+            AddSerializer(new UnaryExpressionSerializer(serializer));
+            AddSerializer(new LabelExpressionSerializer(serializer));
+            AddSerializer(new ListInitExpressionSerializer(serializer));
+            AddSerializer(new LoopExpressionSerializer(serializer));
+            AddSerializer(new MemberExpressionSerializer(serializer));
+            AddSerializer(new GotoExpressionSerializer(serializer));
+            AddSerializer(new MemberInitExpressionSerializer(serializer));
+            AddSerializer(new MethodCallExpressionSerializer(serializer));
+            AddSerializer(new NewArrayExpressionSerializer(serializer));
+            AddSerializer(new NewExpressionSerializer(serializer));
+            AddSerializer(new ParameterExpressionSerializer(serializer));
+            AddSerializer(new RuntimeVariablesExpressionSerializer(serializer));
+            AddSerializer(new SwitchExpressionSerializer(serializer));
+            AddSerializer(new TryExpressionSerializer(serializer));
+            AddSerializer(new TypeBinaryExpressionSerializer(serializer));
+            AddSerializer(new DynamicExpressionSerializer(serializer));
         }
 
-        void AddSerializer(ISpecificExpressionSerializer serializer) {
-            foreach(ExpressionType type in serializer.Supported)
-                serializers[type] = serializer;
+        void AddSerializer(ISpecificExpressionSerializer specificserializer) {
+            foreach(ExpressionType type in specificserializer.Supported)
+                serializers[type] = specificserializer;
         }
 
         /// <summary>
@@ -56,7 +57,7 @@ namespace GoorooMania.Japi.Json.Expressions {
         public sealed override JsonNode SerializeValue(Expression value) {
             JsonObject json = new JsonObject
             {
-                ["type"] = JsonSerializer.Write(value.NodeType),
+                ["type"] = serializer.Write(value.NodeType),
             };
 
             serializers[value.NodeType].Serialize(json, value);

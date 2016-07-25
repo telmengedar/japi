@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using GoorooMania.Japi.Serialization.Data.Path;
+using NightlyCode.Japi.Serialization.Data.Path;
 using NUnit.Framework;
 
 namespace GoorooMania.Japi.Tests {

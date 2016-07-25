@@ -1,4 +1,4 @@
-﻿namespace GoorooMania.Japi.Serialization.Transformation {
+﻿namespace NightlyCode.Japi.Serialization.Transformation {
 
     /// <summary>
     /// interface for a table of data transformers

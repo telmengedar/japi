@@ -1,5 +1,5 @@
 ﻿
-namespace GoorooMania.Japi.Serialization.Transformation {
+namespace NightlyCode.Japi.Serialization.Transformation {
 
     /// <summary>
     /// writer mapping for known java types

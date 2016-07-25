@@ -1,6 +1,6 @@
-﻿using GoorooMania.Japi.Serialization.Data;
+﻿using NightlyCode.Japi.Serialization.Data;
 
-namespace GoorooMania.Japi.Serialization.Conversion {
+namespace NightlyCode.Japi.Serialization.Conversion {
 
     /// <summary>
     /// interface for a data converter which converts java data to another representation

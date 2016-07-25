@@ -1,4 +1,4 @@
-﻿namespace GoorooMania.Japi.Serialization.Data {
+﻿namespace NightlyCode.Japi.Serialization.Data {
 
     /// <summary>
     /// interface for data of java environment

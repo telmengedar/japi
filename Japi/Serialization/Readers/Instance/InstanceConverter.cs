@@ -1,9 +1,9 @@
 ﻿using System.Reflection;
-using GoorooMania.Japi.Extern;
-using GoorooMania.Japi.Serialization.Data;
-using GoorooMania.Japi.Serialization.Transformation;
+using NightlyCode.Core.Conversion;
+using NightlyCode.Japi.Serialization.Data;
+using NightlyCode.Japi.Serialization.Transformation;
 
-namespace GoorooMania.Japi.Serialization.Readers.Instance {
+namespace NightlyCode.Japi.Serialization.Readers.Instance {
 
     /// <summary>
     /// transforms java object data to an instance value

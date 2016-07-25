@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace GoorooMania.Japi.Serialization.Data {
+namespace NightlyCode.Japi.Serialization.Data {
 
     /// <summary>
     /// object from java environment

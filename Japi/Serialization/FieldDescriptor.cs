@@ -1,4 +1,4 @@
-﻿namespace GoorooMania.Japi.Serialization {
+﻿namespace NightlyCode.Japi.Serialization {
     public class FieldDescriptor {
         public string Name { get; set; }
         public string Type { get; set; }

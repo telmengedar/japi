@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GoorooMania.Japi.Serialization.Readers.Instance {
+namespace NightlyCode.Japi.Serialization.Readers.Instance {
 
     /// <summary>
     /// specifies a field the property is mapped to

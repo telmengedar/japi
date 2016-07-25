@@ -3,22 +3,35 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace GoorooMania.Japi.Json.Expressions {
+namespace NightlyCode.Japi.Json.Expressions {
+
+    /// <summary>
+    /// serializes <see cref="UnaryExpression"/>s
+    /// </summary>
     public class UnaryExpressionSerializer : ISpecificExpressionSerializer {
+        readonly IJsonSerializer serializer;
+
+        /// <summary>
+        /// creates a new <see cref="UnaryExpressionSerializer"/>
+        /// </summary>
+        /// <param name="serializer"></param>
+        public UnaryExpressionSerializer(IJsonSerializer serializer) {
+            this.serializer = serializer;
+        }
 
         public void Serialize(JsonObject json, Expression expression) {
             UnaryExpression unary = (UnaryExpression)expression;
-            json["operand"] = JsonSerializer.Write(unary.Operand);
-            json["unarytype"] = JsonSerializer.Write(unary.Type);
-            json["method"] = JsonSerializer.Write(unary.Method);
+            json["operand"] = serializer.Write(unary.Operand);
+            json["unarytype"] = serializer.Write(unary.Type);
+            json["method"] = serializer.Write(unary.Method);
         }
 
         public Expression Deserialize(JsonObject json) {
             return Expression.MakeUnary(
                 json.SelectValue<ExpressionType>("type"),
-                JsonSerializer.Read<Expression>(json["operand"]),
-                JsonSerializer.Read<Type>(json["unarytype"]),
-                JsonSerializer.Read<MethodInfo>(json["method"])
+                serializer.Read<Expression>(json["operand"]),
+                serializer.Read<Type>(json["unarytype"]),
+                serializer.Read<MethodInfo>(json["method"])
                 );
         }
 

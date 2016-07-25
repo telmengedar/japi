@@ -1,4 +1,4 @@
-﻿namespace GoorooMania.Japi.Serialization {
+﻿namespace NightlyCode.Japi.Serialization {
 
     /// <summary>
     /// item tags

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
-using GoorooMania.Japi.Json;
+using NightlyCode.Japi.Json;
 using NUnit.Framework;
 
 namespace GoorooMania.Japi.Tests {
@@ -12,20 +12,16 @@ namespace GoorooMania.Japi.Tests {
         [Test]
         public void SerializeAndDeserialize() {
             TestObject test = TestObject.TestData;
-            JsonNode json = JsonSerializer.Write(test);
-            string jsondata = JsonWriter.WriteString(json);
-            JsonNode otherjson = JsonWriter.Read(jsondata);
-            TestObject othertest = JsonSerializer.Read<TestObject>(otherjson);
+            string jsondata = JSON.WriteString(test);
+            TestObject othertest = JSON.Read<TestObject>(jsondata);
             Assert.AreEqual(test, othertest);
         }
 
         [Test]
         public void ExpressionTest() {
             Expression<Func<TestObject, bool>> expression = o => o.Data == "Dufte" && o.Integer != 3 || o.Float > 2.9f;
-            JsonNode json = JsonSerializer.Write(expression);
-            string jsondata = JsonWriter.WriteString(json);
-            JsonNode otherjson = JsonWriter.Read(jsondata);
-            Expression<Func<TestObject, bool>> othertest = JsonSerializer.Read<Expression<Func<TestObject, bool>>>(otherjson);
+            string jsondata = JSON.WriteString(expression);
+            Expression<Func<TestObject, bool>> othertest = JSON.Read<Expression<Func<TestObject, bool>>>(jsondata);
             Assert.AreEqual(expression.ToString(), othertest.ToString());
         }
 
@@ -57,8 +53,24 @@ namespace GoorooMania.Japi.Tests {
         [Test]
         public void ReadJson([ValueSource(typeof(Resources), nameof(Resources.JSon))]ResourceData<string> data) {
             string json = data.Data;
-            JsonWriter.Read(json);
+            JSON.ReadNodeFromString(json);
             Assert.Pass();
+        }
+
+        [Test]
+        public void SerializeVariant() {
+            VariantClass variant = new VariantClass {
+                Data = new IData[] {
+                    new Data1(),
+                    new Data2(),
+                    new Data1(),
+                    new Data1(),
+                    new Data2()
+                }
+            };
+
+            string data=JSON.WriteString(variant);
+            VariantClass v2 = JSON.Read<VariantClass>(data);
         }
     }
 }
