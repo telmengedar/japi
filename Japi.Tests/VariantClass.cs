@@ -1,6 +1,6 @@
 using NightlyCode.Japi.Json;
 
-namespace GoorooMania.Japi.Tests {
+namespace NightlyCode.Japi.Tests {
     public class VariantClass {
 
         [Variant]

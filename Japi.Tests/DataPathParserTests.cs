@@ -3,7 +3,7 @@ using System.Linq;
 using NightlyCode.Japi.Serialization.Data.Path;
 using NUnit.Framework;
 
-namespace GoorooMania.Japi.Tests {
+namespace NightlyCode.Japi.Tests {
 
     [TestFixture]
     public class DataPathParserTests {

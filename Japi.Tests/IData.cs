@@ -1,3 +1,3 @@
-﻿namespace GoorooMania.Japi.Tests {
+﻿namespace NightlyCode.Japi.Tests {
     public interface IData { }
 }

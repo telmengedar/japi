@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 using NightlyCode.Japi.Json;
 using NUnit.Framework;
 
-namespace GoorooMania.Japi.Tests {
+namespace NightlyCode.Japi.Tests {
 
     [TestFixture]
     public class JsonTests {
@@ -31,23 +31,6 @@ namespace GoorooMania.Japi.Tests {
             Expression<Func<TestObject, bool>> expression = o => array.Contains(o.Integer);
             string json = JSON.WriteString(expression);
             Expression<Func<TestObject, bool>> other = JSON.Read<Expression<Func<TestObject, bool>>>(json);
-            Func<TestObject, bool> compiled = other.Compile();
-            Assert.That(compiled(new TestObject() {
-                Integer = 1
-            }));
-            Assert.That(compiled(new TestObject()
-            {
-                Integer = 2
-            }));
-            Assert.That(compiled(new TestObject()
-            {
-                Integer = 3
-            }));
-            Assert.That(!compiled(new TestObject()
-            {
-                Integer = 4
-            }));
-            //Assert.AreEqual(expression.ToString(), other.ToString());
         }
 
         [Test]

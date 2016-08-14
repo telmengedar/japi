@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 
-namespace GoorooMania.Japi.Tests
+namespace NightlyCode.Japi.Tests
 {
 
     [TestFixture]

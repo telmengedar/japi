@@ -1,4 +1,4 @@
-﻿namespace GoorooMania.Japi.Tests {
+﻿namespace NightlyCode.Japi.Tests {
 
     /// <summary>
     /// used to link resource names to data (so that tests are more readable)

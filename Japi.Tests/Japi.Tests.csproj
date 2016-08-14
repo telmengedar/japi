@@ -7,7 +7,7 @@
     <ProjectGuid>{7953118B-80F8-4DED-9098-6F35D0ABC743}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GoorooMania.Japi.Tests</RootNamespace>
+    <RootNamespace>NightlyCode.Japi.Tests</RootNamespace>
     <AssemblyName>Japi.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -75,7 +75,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Data\Raw\Planet.duh" />
-    <EmbeddedResource Include="Data\Raw\ser10.duh" />
     <EmbeddedResource Include="Data\Raw\ser11.duh" />
     <EmbeddedResource Include="Data\Raw\ser12.duh" />
     <EmbeddedResource Include="Data\Raw\ser13.duh" />

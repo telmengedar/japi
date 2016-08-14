@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace GoorooMania.Japi.Tests {
+namespace NightlyCode.Japi.Tests {
     public class Resources {
 
         public static IEnumerable<ResourceData<Stream>> Raw

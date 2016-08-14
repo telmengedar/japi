@@ -5,7 +5,7 @@ using System.Xml;
 using NightlyCode.Japi.Serialization.Readers;
 using NUnit.Framework;
 
-namespace GoorooMania.Japi.Tests {
+namespace NightlyCode.Japi.Tests {
 
     [TestFixture]
     public class ObjectStreamTests {

@@ -1,4 +1,4 @@
-﻿namespace GoorooMania.Japi.Tests {
+﻿namespace NightlyCode.Japi.Tests {
     public class Order {
          
     }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace GoorooMania.Japi.Tests {
+namespace NightlyCode.Japi.Tests {
 
     public class TestObject {
         public int Integer { get; set; }
