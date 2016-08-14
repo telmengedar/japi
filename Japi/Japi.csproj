@@ -40,7 +40,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="NightlyCode.Core">
-      <HintPath>..\..\..\Compiled\Library\NightlyCode.Core.dll</HintPath>
+      <HintPath>$(DevDir)\Compiled\Library\NightlyCode.Core.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -163,7 +163,7 @@
     <None Include="nightlycode.snk" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\..\..\Compiled\Library\NightlyCode.Core.dll">
+    <Content Include="$(DevDir)\Compiled\Library\NightlyCode.Core.dll">
       <Link>Extern\NightlyCode.Core.dll</Link>
     </Content>
   </ItemGroup>
