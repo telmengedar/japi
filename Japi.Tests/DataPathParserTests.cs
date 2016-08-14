@@ -9,7 +9,7 @@ namespace NightlyCode.Japi.Tests {
     public class DataPathParserTests {
         readonly DataPathParser parser = new DataPathParser();
 
-        IEnumerable<string> Valid
+        static IEnumerable<string> Valid
         {
             get
             {
@@ -27,7 +27,7 @@ namespace NightlyCode.Japi.Tests {
         }
 
         [Test]
-        public void ParseValid([ValueSource("Valid")] string path) {
+        public void ParseValid([ValueSource(nameof(Valid))] string path) {
             IPathElement[] elements = parser.ParsePath(path).ToArray();
             Assert.Greater(elements.Length, 0);
         }

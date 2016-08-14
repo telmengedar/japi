@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using NUnit.Framework;
 
 namespace NightlyCode.Japi.Tests {
-    public class Resources {
+    public static class Resources {
 
         public static IEnumerable<ResourceData<Stream>> Raw
         {
             get
             {
-                foreach (string resource in typeof(ObjectStreamTests).Assembly.GetManifestResourceNames().Where(n => n.StartsWith("GoorooMania.Japi.Tests.Data.Raw")))
+                foreach (string resource in typeof(ObjectStreamTests).Assembly.GetManifestResourceNames().Where(n => n.StartsWith("NightlyCode.Japi.Tests.Data.Raw")))
                     yield return new ResourceData<Stream>(resource, typeof(ObjectStreamTests).Assembly.GetManifestResourceStream(resource));
             }
         }
@@ -20,7 +21,7 @@ namespace NightlyCode.Japi.Tests {
         {
             get
             {
-                foreach (string resource in typeof(ObjectStreamTests).Assembly.GetManifestResourceNames().Where(n => n.StartsWith("GoorooMania.Japi.Tests.Data.Encoded")))
+                foreach (string resource in typeof(ObjectStreamTests).Assembly.GetManifestResourceNames().Where(n => n.StartsWith("NightlyCode.Japi.Tests.Data.Encoded")))
                     yield return new ResourceData<Stream>(resource, typeof(ObjectStreamTests).Assembly.GetManifestResourceStream(resource));
             }
         }
@@ -29,7 +30,7 @@ namespace NightlyCode.Japi.Tests {
         {
             get
             {
-                foreach (string resource in typeof(ObjectStreamTests).Assembly.GetManifestResourceNames().Where(n => n.StartsWith("GoorooMania.Japi.Tests.Data.Base64")))
+                foreach (string resource in typeof(ObjectStreamTests).Assembly.GetManifestResourceNames().Where(n => n.StartsWith("NightlyCode.Japi.Tests.Data.Base64")))
                 {
                     using (Stream data = typeof(ObjectStreamTests).Assembly.GetManifestResourceStream(resource))
                     {
@@ -50,7 +51,7 @@ namespace NightlyCode.Japi.Tests {
         {
             get
             {
-                foreach (string resource in typeof(ObjectStreamTests).Assembly.GetManifestResourceNames().Where(n => n.StartsWith("GoorooMania.Japi.Tests.Data.Json")))
+                foreach (string resource in typeof(ObjectStreamTests).Assembly.GetManifestResourceNames().Where(n => n.StartsWith("NightlyCode.Japi.Tests.Data.Json")))
                 {
                     using (Stream data = typeof(ObjectStreamTests).Assembly.GetManifestResourceStream(resource))
                     {
