@@ -190,7 +190,13 @@ namespace NightlyCode.Japi.Json
                     continue;
 
                 string key = JsonKeyAttribute.GetKey(property) ?? property.Name.ToLower();
-                json[key] = Write(property.GetValue(@object), VariantAttribute.IsVariant(property));
+                json[key] = Write(
+#if UNITY
+                    property.GetValue(@object, null),
+#else
+                    property.GetValue(@object), 
+#endif
+                VariantAttribute.IsVariant(property));
             }
             return json;
         }

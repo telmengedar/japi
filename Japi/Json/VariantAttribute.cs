@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 
 namespace NightlyCode.Japi.Json {
@@ -18,7 +19,11 @@ namespace NightlyCode.Japi.Json {
         /// <param name="property"></param>
         /// <returns></returns>
         public static bool IsVariant(PropertyInfo property) {
+#if UNITY
+            return property.GetCustomAttributes(typeof(VariantAttribute), false).Any();
+#else
             return property.GetCustomAttribute<VariantAttribute>() != null;
+#endif
         }
     }
 }

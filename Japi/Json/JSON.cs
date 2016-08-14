@@ -11,10 +11,22 @@ namespace NightlyCode.Japi.Json {
         static readonly IJsonWriter writer;
 
         static JSON() {
+#if !UNITY
             Resolver.Resolve();
+#endif
             serializer = new JsonSerializer();
             writer = new JsonWriter();
         }
+
+        /// <summary>
+        /// access to serializer
+        /// </summary>
+        public static IJsonSerializer Serializer => serializer;
+
+        /// <summary>
+        /// access to writer
+        /// </summary>
+        public static IJsonWriter Writer => writer;
 
         /// <summary>
         /// read data from a json stream

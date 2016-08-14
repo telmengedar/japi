@@ -22,19 +22,28 @@ namespace NightlyCode.Japi.Json.Expressions {
             LambdaExpression lamda = (LambdaExpression)expression;
 
             json["parameters"] = new JsonArray(lamda.Parameters.Select(serializer.Write));
-            json["name"] = new JsonValue(lamda.Name);
             json["body"] = serializer.Write(lamda.Body);
             //json["return"] = JsonSerializer.Write(lamda.ReturnType);
+#if !UNITY
+            json["name"] = new JsonValue(lamda.Name);
             json["tail"] = new JsonValue(lamda.TailCall);
+#endif
         }
 
         public Expression Deserialize(JsonObject json) {
+#if UNITY
+            return Expression.Lambda(
+                serializer.Read<Expression>(json["body"]),
+                json["parameters"].Select(serializer.Read<ParameterExpression>).ToArray()
+            );
+#else
             return Expression.Lambda(
                 serializer.Read<Expression>(json["body"]),
                 json.SelectValue<string>("name"),
                 json.SelectValue<bool>("tail"),
                 json["parameters"].Select(serializer.Read<ParameterExpression>)
                 );
+#endif
         }
 
         public IEnumerable<ExpressionType> Supported

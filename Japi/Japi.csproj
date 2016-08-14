@@ -36,7 +36,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>gooroomania.snk.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>nightlycode.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="NightlyCode.Core">
@@ -160,7 +160,7 @@
     <Compile Include="Serialization\Conversion\XmlDataConverter.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="gooroomania.snk.pfx" />
+    <None Include="nightlycode.snk" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\..\..\Compiled\Library\NightlyCode.Core.dll">

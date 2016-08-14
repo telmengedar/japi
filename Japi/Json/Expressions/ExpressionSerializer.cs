@@ -17,31 +17,33 @@ namespace NightlyCode.Japi.Json.Expressions {
         /// </summary>
         public ExpressionSerializer(IJsonSerializer serializer) {
             this.serializer = serializer;
-            AddSerializer(new BinaryExpressionSerializer(serializer));
+#if !UNITY
             AddSerializer(new BlockExpressionSerializer(serializer));
-            AddSerializer(new ConditionalExpressionSerializer(serializer));
-            AddSerializer(new ConstantExpressionSerializer(serializer));
             AddSerializer(new DebugInfoExpressionSerializer(serializer));
             AddSerializer(new DefaultExpressionSerializer(serializer));
+            AddSerializer(new LabelExpressionSerializer(serializer));
+            AddSerializer(new LoopExpressionSerializer(serializer));
+            AddSerializer(new GotoExpressionSerializer(serializer));
+            AddSerializer(new RuntimeVariablesExpressionSerializer(serializer));
+            AddSerializer(new SwitchExpressionSerializer(serializer));
+            AddSerializer(new TryExpressionSerializer(serializer));
+            AddSerializer(new DynamicExpressionSerializer(serializer));
             AddSerializer(new IndexExpressionSerializer(serializer));
+#endif
+            AddSerializer(new BinaryExpressionSerializer(serializer));
+            AddSerializer(new ConditionalExpressionSerializer(serializer));
+            AddSerializer(new ConstantExpressionSerializer(serializer));
             AddSerializer(new LambdaExpressionSerializer(serializer));
             AddSerializer(new InvocationExpressionSerializer(serializer));
             AddSerializer(new UnaryExpressionSerializer(serializer));
-            AddSerializer(new LabelExpressionSerializer(serializer));
             AddSerializer(new ListInitExpressionSerializer(serializer));
-            AddSerializer(new LoopExpressionSerializer(serializer));
             AddSerializer(new MemberExpressionSerializer(serializer));
-            AddSerializer(new GotoExpressionSerializer(serializer));
             AddSerializer(new MemberInitExpressionSerializer(serializer));
             AddSerializer(new MethodCallExpressionSerializer(serializer));
             AddSerializer(new NewArrayExpressionSerializer(serializer));
             AddSerializer(new NewExpressionSerializer(serializer));
             AddSerializer(new ParameterExpressionSerializer(serializer));
-            AddSerializer(new RuntimeVariablesExpressionSerializer(serializer));
-            AddSerializer(new SwitchExpressionSerializer(serializer));
-            AddSerializer(new TryExpressionSerializer(serializer));
             AddSerializer(new TypeBinaryExpressionSerializer(serializer));
-            AddSerializer(new DynamicExpressionSerializer(serializer));
         }
 
         void AddSerializer(ISpecificExpressionSerializer specificserializer) {
