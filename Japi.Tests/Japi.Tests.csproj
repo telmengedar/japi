@@ -49,6 +49,7 @@
     <Compile Include="DataPathParserTests.cs" />
     <Compile Include="IData.cs" />
     <Compile Include="InstanceReaderTest.cs" />
+    <Compile Include="JsonExtensionTests.cs" />
     <Compile Include="JsonTests.cs" />
     <Compile Include="ObjectStreamTests.cs" />
     <Compile Include="Order.cs" />
