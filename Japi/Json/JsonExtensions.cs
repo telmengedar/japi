@@ -14,19 +14,16 @@ namespace NightlyCode.Japi.Json {
         /// <returns>a formatted string</returns>
         public static string Format(this JsonNode json) {
             StringBuilder sb = new StringBuilder();
-            AnalyseJson(json, 0, sb, false);
+            AnalyseJson(json, 0, sb);
             return sb.ToString();
         }
 
-        static void AnalyseJson(JsonNode json, int indent, StringBuilder sb, bool indentfirst)
+        static void AnalyseJson(JsonNode json, int indent, StringBuilder sb)
         {
             bool first = true;
             if (json is JsonObject)
             {
                 JsonObject @object = (JsonObject)json;
-
-                if(indentfirst)
-                    sb.Append(new string(' ', indent));
 
                 sb.Append("{");
                 sb.AppendLine();
@@ -43,7 +40,7 @@ namespace NightlyCode.Japi.Json {
                     sb.Append(" : ");
 
                     JsonNode node = @object[key];
-                    AnalyseJson(node, indent + 2, sb, false);
+                    AnalyseJson(node, indent + 2, sb);
                 }
                 sb.AppendLine();
                 sb.Append(new string(' ', indent));
@@ -52,9 +49,6 @@ namespace NightlyCode.Japi.Json {
             else if (json is JsonArray)
             {
                 JsonArray array = (JsonArray)json;
-
-                if (indentfirst)
-                    sb.Append(new string(' ', indent));
 
                 sb.Append("[");
                 foreach (JsonNode value in array.Items)
@@ -65,7 +59,7 @@ namespace NightlyCode.Japi.Json {
                         first = false;
                     }
 
-                    AnalyseJson(value, indent + 2, sb, false);
+                    AnalyseJson(value, indent + 2, sb);
                 }
                 sb.Append("]");
             }
@@ -76,7 +70,7 @@ namespace NightlyCode.Japi.Json {
                     sb.Append("null");
                 else if (value.Value is string)
                     sb.Append("\"" + (string)value.Value + "\"");
-                else sb.Append(value.Value.ToString());
+                else sb.Append(value.Value);
             }
         }
 
