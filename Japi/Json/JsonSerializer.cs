@@ -189,6 +189,10 @@ namespace NightlyCode.Japi.Json
                 if(!property.CanWrite)
                     continue;
 
+                // ignore indexers
+                if(property.GetIndexParameters().Length > 0)
+                    continue;
+
                 string key = JsonKeyAttribute.GetKey(property) ?? property.Name.ToLower();
                 json[key] = Write(
 #if UNITY
