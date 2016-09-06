@@ -186,8 +186,9 @@ namespace NightlyCode.Japi.Json
 
             JsonObject json = new JsonObject();
             foreach(PropertyInfo property in @object.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance)) {
-                if(!property.CanWrite)
-                    continue;
+                // currently not sure ... perhaps optional deactivation
+                //if(!property.CanWrite)
+                //    continue;
 
                 // ignore indexers
                 if(property.GetIndexParameters().Length > 0)

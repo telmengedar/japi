@@ -22,15 +22,29 @@ namespace NightlyCode.Japi.Json
             }
         }
 
+#if UNITY
         /// <summary>
         /// reads json data
         /// </summary>
         /// <param name="stream"></param>
         /// <returns></returns>
-        public JsonNode Read(Stream stream) {
-            using(StreamReader reader = new StreamReader(stream, Encoding.UTF8, true))
+        public JsonNode Read(Stream stream)
+        {
+            using (StreamReader reader = new StreamReader(stream, Encoding.UTF8, true, 4096))
                 return Read(reader);
         }
+#else
+        /// <summary>
+        /// reads json data
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <param name="leaveopen">whether to leave stream open after reading</param>
+        /// <returns></returns>
+        public JsonNode Read(Stream stream, bool leaveopen=false) {
+            using(StreamReader reader = new StreamReader(stream, Encoding.UTF8, true, 4096, leaveopen))
+                return Read(reader);
+        }
+#endif
 
         JsonNode Read(TextReader reader) {
             SkipWhiteSpaces(reader);
@@ -255,15 +269,30 @@ namespace NightlyCode.Japi.Json
             }
         }
 
+#if UNITY
         /// <summary>
         /// writes a json node to a stream
         /// </summary>
         /// <param name="node"></param>
         /// <param name="target"></param>
-        public void Write(JsonNode node, Stream target) {
-            using(TextWriter writer = new StreamWriter(target, new UTF8Encoding(false)))
+        public void Write(JsonNode node, Stream target)
+        {
+            using (TextWriter writer = new StreamWriter(target, new UTF8Encoding(false), 4096))
                 Write(node, writer);
         }
+#else
+        /// <summary>
+        /// writes a json node to a stream
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="target"></param>
+        /// <param name="leaveopen">whether to leave the stream open after data has been written</param>
+        public void Write(JsonNode node, Stream target, bool leaveopen=false) {
+            using(TextWriter writer = new StreamWriter(target, new UTF8Encoding(false),4096, leaveopen))
+                Write(node, writer);
+        }
+#endif
+
 
         void Write(JsonNode node, TextWriter writer) {
             if(node is JsonArray)
@@ -285,6 +314,7 @@ namespace NightlyCode.Japi.Json
                 if(flag)
                     writer.Write(",");
                 else flag = true;
+
                 Serialize(key, json[key], writer);
             }
             writer.Write("}");

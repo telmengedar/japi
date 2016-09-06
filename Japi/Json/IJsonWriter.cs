@@ -13,12 +13,22 @@ namespace NightlyCode.Japi.Json {
         /// <returns></returns>
         JsonNode Read(string data);
 
+#if UNITY
         /// <summary>
         /// reads json data
         /// </summary>
         /// <param name="stream"></param>
         /// <returns></returns>
         JsonNode Read(Stream stream);
+#else
+        /// <summary>
+        /// reads json data
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <param name="leaveopen">whether to leave <see cref="Stream"/> open after reading</param>
+        /// <returns></returns>
+        JsonNode Read(Stream stream, bool leaveopen=false);
+#endif
 
         /// <summary>
         /// writes a json node to string
@@ -27,11 +37,21 @@ namespace NightlyCode.Japi.Json {
         /// <returns></returns>
         string WriteString(JsonNode node);
 
+#if UNITY
         /// <summary>
         /// writes a json node to a stream
         /// </summary>
         /// <param name="node"></param>
         /// <param name="target"></param>
         void Write(JsonNode node, Stream target);
+#else
+        /// <summary>
+        /// writes a json node to a stream
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="target"></param>
+        /// <param name="leaveopen">whether to leave <see cref="Stream"/> open after writing</param>
+        void Write(JsonNode node, Stream target, bool leaveopen);
+#endif
     }
 }
