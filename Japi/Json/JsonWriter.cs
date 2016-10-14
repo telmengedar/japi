@@ -354,8 +354,12 @@ namespace NightlyCode.Japi.Json
                 value = ((TimeSpan)value).Ticks;
             else if(value is byte[])
                 value = Convert.ToBase64String((byte[])value);
+            else if(value is IntPtr)
+                value = IntPtr.Size > 4 ? ((IntPtr)value).ToInt64() : ((IntPtr)value).ToInt32();
+            else if(value is UIntPtr)
+                value = UIntPtr.Size > 4 ? ((UIntPtr)value).ToUInt64() : ((UIntPtr)value).ToUInt32();
 
-            if(value == null)
+            if (value == null)
                 writer.Write("null");
             else if(value is string) {
                 writer.Write("\"");

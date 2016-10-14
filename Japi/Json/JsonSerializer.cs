@@ -76,7 +76,7 @@ namespace NightlyCode.Japi.Json
 #if WINDOWS_UWP
             if (type.GetTypeInfo().IsValueType || type.GetTypeInfo().IsEnum || type == typeof(string) || type == typeof(Version)) {
 #else        
-            if(type.IsValueType || type.IsEnum || type == typeof(string) || type == typeof(Version)) {
+            if(type.IsValueType || type.IsEnum || type == typeof(string) || type == typeof(Version) || type == typeof(IntPtr) || type==typeof(UIntPtr)) {
 #endif
                 if (!(node is JsonValue))
                     throw new JsonException("Unable to read value from non value node");
@@ -168,7 +168,7 @@ namespace NightlyCode.Japi.Json
 #if WINDOWS_UWP
             if (@object == null || @object is string || @object.GetType().GetTypeInfo().IsEnum || @object.GetType().GetTypeInfo().IsValueType || @object is Version)
 #else
-            if (@object == null || @object is string || @object.GetType().IsEnum || @object.GetType().IsValueType || @object is Version)
+            if (@object == null || @object is string || @object.GetType().IsEnum || @object.GetType().IsValueType || @object is Version || @object is IntPtr || @object is UIntPtr)
 #endif
                 return new JsonValue(@object);
 
