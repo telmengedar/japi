@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using NightlyCode.Core.Conversion;
@@ -163,6 +165,14 @@ namespace NightlyCode.Japi.Json
                 if(@object.GetType().GetElementType() == typeof(byte))
                     return new JsonValue(Convert.ToBase64String((byte[])@object));
                 return WriteArray((Array)@object, variant);
+            }
+
+            if(@object is IDictionary) {
+                JsonObject dictionary=new JsonObject();
+
+                foreach(object kvp in ((IDictionary)@object).Keys)
+                    dictionary[kvp.ToString()] = Write(((IDictionary)@object)[kvp]);
+                return dictionary;
             }
 
 #if WINDOWS_UWP
