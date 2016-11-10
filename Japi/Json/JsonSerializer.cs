@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using NightlyCode.Core.Conversion;
@@ -59,6 +58,12 @@ namespace NightlyCode.Japi.Json
 
             if(node is JsonValue && ((JsonValue)node).Value == null)
                 return null;
+
+            if(type == typeof(object)) {
+                if(!(node is JsonValue))
+                    throw new JsonException("Currently only values are supported for object properties");
+                return ((JsonValue)node).Value;
+            }
 
             if(type.IsArray) {
                 if(type.GetElementType() == typeof(byte)) {
