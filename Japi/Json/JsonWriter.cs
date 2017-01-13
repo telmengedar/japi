@@ -368,6 +368,10 @@ namespace NightlyCode.Japi.Json
             }
             else if(value is bool)
                 writer.Write((bool)value ? "true" : "false");
+            else if (value is byte)
+                writer.Write(((byte)value).ToString(CultureInfo.InvariantCulture));
+            else if(value is short)
+                writer.Write(((short)value).ToString(CultureInfo.InvariantCulture));
             else if(value is int)
                 writer.Write(((int)value).ToString(CultureInfo.InvariantCulture));
             else if(value is long)
