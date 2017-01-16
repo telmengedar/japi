@@ -372,11 +372,17 @@ namespace NightlyCode.Japi.Json
                 writer.Write(((byte)value).ToString(CultureInfo.InvariantCulture));
             else if(value is short)
                 writer.Write(((short)value).ToString(CultureInfo.InvariantCulture));
+            else if(value is ushort)
+                writer.Write(((ushort)value).ToString(CultureInfo.InvariantCulture));
             else if(value is int)
                 writer.Write(((int)value).ToString(CultureInfo.InvariantCulture));
-            else if(value is long)
+            else if (value is uint)
+                writer.Write(((uint)value).ToString(CultureInfo.InvariantCulture));
+            else if (value is long)
                 writer.Write(((long)value).ToString(CultureInfo.InvariantCulture));
-            else if(value is float)
+            else if (value is ulong)
+                writer.Write(((ulong)value).ToString(CultureInfo.InvariantCulture));
+            else if (value is float)
                 writer.Write(((float)value).ToString(CultureInfo.InvariantCulture));
             else if(value is double)
                 writer.Write(((double)value).ToString(CultureInfo.InvariantCulture));
