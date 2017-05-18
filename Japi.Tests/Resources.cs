@@ -62,6 +62,21 @@ namespace NightlyCode.Japi.Tests {
                     }
                 }
             }
-        } 
+        }
+
+        public static IEnumerable<ResourceData<byte[]>> JsonBytes
+        {
+            get
+            {
+                foreach(string resource in typeof(ObjectStreamTests).Assembly.GetManifestResourceNames().Where(n => n.StartsWith("NightlyCode.Japi.Tests.Data.Json"))) {
+                    using(Stream data = typeof(ObjectStreamTests).Assembly.GetManifestResourceStream(resource)) {
+                        using(MemoryStream memorystream = new MemoryStream()) {
+                            data.CopyTo(memorystream);
+                            yield return new ResourceData<byte[]>(resource, memorystream.ToArray());
+                        }
+                    }
+                }
+            }
+        }
     }
 }

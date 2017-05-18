@@ -14,12 +14,22 @@ namespace NightlyCode.Japi.Json
         /// <summary>
         /// reads json data
         /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
+        /// <param name="data">string which contains a json structure</param>
+        /// <returns><see cref="JsonNode"/> containing the read json data</returns>
         public JsonNode Read(string data) { 
             using(StringReader reader = new StringReader(data)) {
                 return Read(reader);
             }
+        }
+
+        /// <summary>
+        /// reads json data
+        /// </summary>
+        /// <param name="data">data which contains a json structure</param>
+        /// <returns><see cref="JsonNode"/> containing the read json data</returns>
+        public JsonNode Read(byte[] data) {
+            using(MemoryStream ms = new MemoryStream(data))
+                return Read(ms);
         }
 
 #if UNITY
@@ -79,7 +89,7 @@ namespace NightlyCode.Japi.Json
                 SkipWhiteSpaces(reader);
                 character = ReadCharacter(reader);
                 if(character != ':')
-                    throw new InvalidOperationException("unexpected character '" + character + "'");
+                    throw new InvalidOperationException($"unexpected character '{character}'");
 
                 SkipWhiteSpaces(reader);
                 JsonNode value = ReadValue(reader);
@@ -91,7 +101,7 @@ namespace NightlyCode.Japi.Json
                     return json;
 
                 if(character != ',')
-                    throw new InvalidOperationException("unexpected character '" + character + "'");
+                    throw new InvalidOperationException($"unexpected character '{character}'");
             } while(true);
         }
 
@@ -217,7 +227,7 @@ namespace NightlyCode.Japi.Json
             }
             catch(Exception e) {
 
-                throw new JsonException("Unable to parse '" + value + "'", e);
+                throw new JsonException($"Unable to parse '{value}'", e);
             }
             
         }

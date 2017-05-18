@@ -37,7 +37,12 @@ namespace NightlyCode.Japi.Tests {
         public void ReadJson([ValueSource(typeof(Resources), nameof(Resources.JSon))]ResourceData<string> data) {
             string json = data.Data;
             JSON.ReadNodeFromString(json);
-            Assert.Pass();
+        }
+
+        [Test]
+        public void ReadJsonFromBytes([ValueSource(typeof(Resources), nameof(Resources.JsonBytes))]ResourceData<byte[]> data)
+        {
+            JSON.Writer.Read(data.Data);
         }
 
         [Test]

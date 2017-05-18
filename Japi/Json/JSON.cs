@@ -50,6 +50,17 @@ namespace NightlyCode.Japi.Json {
             return (T)Read(typeof(T), data);
         }
 
+        /// <summary>
+        /// read an object from json bytes
+        /// </summary>
+        /// <typeparam name="T">type of object to read</typeparam>
+        /// <param name="data">bytes which contain json data</param>
+        /// <returns></returns>
+        public static T Read<T>(byte[] data) {
+            using(MemoryStream ms = new MemoryStream(data))
+                return Read<T>(ms);
+        }
+
 #if UNITY
         /// <summary>
         /// read data from a json stream

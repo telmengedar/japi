@@ -6,12 +6,20 @@ namespace NightlyCode.Japi.Json {
     /// interface for a reader and writer of <see cref="JsonNode"/>s
     /// </summary>
     public interface IJsonWriter {
+
         /// <summary>
         /// reads json data
         /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
+        /// <param name="data">string which contains a json structure</param>
+        /// <returns><see cref="JsonNode"/> containing the read json data</returns>
         JsonNode Read(string data);
+
+        /// <summary>
+        /// reads json data
+        /// </summary>
+        /// <param name="data">data which contains a json structure</param>
+        /// <returns><see cref="JsonNode"/> containing the read json data</returns>
+        JsonNode Read(byte[] data);
 
 #if UNITY
         /// <summary>
