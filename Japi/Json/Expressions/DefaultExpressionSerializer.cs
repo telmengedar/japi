@@ -24,7 +24,7 @@ namespace NightlyCode.Japi.Json.Expressions {
         }
 
         public Expression Deserialize(JsonObject json) {
-            return Expression.Default(serializer.Read<Type>(json["extype"]));
+            return Expression.Default(serializer.Read<Type>(json["extype"] as JsonNode));
         }
 
         public IEnumerable<ExpressionType> Supported

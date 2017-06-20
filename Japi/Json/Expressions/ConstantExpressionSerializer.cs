@@ -30,7 +30,7 @@ namespace NightlyCode.Japi.Json.Expressions {
         public Expression Deserialize(JsonObject json) {
             object value = json.SelectValue<object>("value");
             if(value != null) {
-                Type valuetype = serializer.Read<Type>(json["valuetype"]);
+                Type valuetype = serializer.Read<Type>(json["valuetype"] as JsonNode);
                 return Expression.Constant(Converter.Convert(value, valuetype), valuetype);
             }
             return Expression.Constant(null);

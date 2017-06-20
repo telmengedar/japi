@@ -7,7 +7,7 @@ namespace NightlyCode.Japi.Json.Expressions {
     /// serializes <see cref="ConditionalExpression"/>s
     /// </summary>
     public class ConditionalExpressionSerializer : ISpecificExpressionSerializer {
-        IJsonSerializer serializer;
+        readonly IJsonSerializer serializer;
 
         /// <summary>
         /// creates a new <see cref="ConditionalExpressionSerializer"/>
@@ -26,9 +26,9 @@ namespace NightlyCode.Japi.Json.Expressions {
 
         public Expression Deserialize(JsonObject json) {
             return Expression.Condition(
-                serializer.Read<Expression>(json["test"]),
-                serializer.Read<Expression>(json["iftrue"]),
-                serializer.Read<Expression>(json["iffalse"])
+                serializer.Read<Expression>(json["test"] as JsonNode),
+                serializer.Read<Expression>(json["iftrue"] as JsonNode),
+                serializer.Read<Expression>(json["iffalse"] as JsonNode)
                 );
         }
 

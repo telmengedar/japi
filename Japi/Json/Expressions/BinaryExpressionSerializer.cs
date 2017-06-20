@@ -40,11 +40,11 @@ namespace NightlyCode.Japi.Json.Expressions {
         public Expression Deserialize(JsonObject json) {
             return Expression.MakeBinary(
                 json.SelectValue<ExpressionType>("type"),
-                serializer.Read<Expression>(json["left"]),
-                serializer.Read<Expression>(json["right"]),
+                serializer.Read<Expression>(json["left"] as JsonNode),
+                serializer.Read<Expression>(json["right"] as JsonNode),
                 json.SelectValue<bool>("isliftedtonull"),
-                serializer.Read<MethodInfo>(json["method"]),
-                serializer.Read<LambdaExpression>(json["conversion"])
+                serializer.Read<MethodInfo>(json["method"] as JsonNode),
+                serializer.Read<LambdaExpression>(json["conversion"] as JsonNode)
                 );
         }
 

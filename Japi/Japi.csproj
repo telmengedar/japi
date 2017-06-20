@@ -83,6 +83,7 @@
     <Compile Include="Json\IJsonSerializer.cs" />
     <Compile Include="Json\IJsonWriter.cs" />
     <Compile Include="Json\JSON.cs" />
+    <Compile Include="Json\JsonConstructor.cs" />
     <Compile Include="Json\JsonExtensions.cs" />
     <Compile Include="Json\JsonKeyAttribute.cs" />
     <Compile Include="Json\JsonLoaderAttribute.cs" />

@@ -27,7 +27,7 @@ namespace NightlyCode.Japi.Json.Expressions {
 
         public Expression Deserialize(JsonObject json) {
             return Expression.Dynamic(
-                serializer.Read<CallSiteBinder>(json["binder"]),
+                serializer.Read<CallSiteBinder>(json["binder"] as JsonNode),
                 typeof(object),
                 json["arguments"].Select(serializer.Read<Expression>)
                 );

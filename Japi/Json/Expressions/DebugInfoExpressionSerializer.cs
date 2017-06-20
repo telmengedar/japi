@@ -30,7 +30,7 @@ namespace NightlyCode.Japi.Json.Expressions {
 
         public Expression Deserialize(JsonObject json) {
             return Expression.DebugInfo(
-                serializer.Read<SymbolDocumentInfo>(json["document"]),
+                serializer.Read<SymbolDocumentInfo>(json["document"] as JsonNode),
                 json.SelectValue<int>("startline"),
                 json.SelectValue<int>("startcolumn"),
                 json.SelectValue<int>("endline"),
