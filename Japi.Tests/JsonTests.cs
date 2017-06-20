@@ -46,6 +46,18 @@ namespace NightlyCode.Japi.Tests {
         }
 
         [Test]
+        public void JsonConstructorTest() {
+            string data=JSON.Writer.WriteString(new JsonConstructor {
+                ["test"] = "test",
+                ["int"] = 42
+            });
+
+            JsonNode deserialized = JSON.Writer.Read(data);
+            Assert.AreEqual("test", deserialized.SelectValue<string>("test"));
+            Assert.AreEqual(42, deserialized.SelectValue<int>("int"));
+        }
+
+        [Test]
         public void SerializeVariant() {
             VariantClass variant = new VariantClass {
                 Data = new IData[] {
