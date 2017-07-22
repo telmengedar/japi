@@ -27,7 +27,7 @@ using(javastream) {
 
 ## Json
 
-This library contains a Json parser and serializer to be able to read and write json data. If you are using some different library like [Newtonsoft JSON.NET](https://github.com/JamesNK/Newtonsoft.Json) there is no need to try out this project since it surprise me if my code did any better.
+This library contains a Json parser and serializer to be able to read and write json data. If you are using some different library like [Newtonsoft JSON.NET](https://github.com/JamesNK/Newtonsoft.Json) there is no need to try out this project since it would surprise me if my code did any better.
 
 ### How to deserialize JSON
 
