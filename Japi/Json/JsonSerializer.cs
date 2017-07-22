@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Linq;
 using System.Reflection;
-using NightlyCode.Core.Conversion;
+using NightlyCode.Japi.Extern;
 using NightlyCode.Japi.Json.Serialization;
 
 namespace NightlyCode.Japi.Json
@@ -211,7 +211,7 @@ namespace NightlyCode.Japi.Json
 
                 string key = JsonKeyAttribute.GetKey(property) ?? property.Name.ToLower();
                 json[key] = Write(
-#if UNITY
+#if FRAMEWORK35
                     property.GetValue(@object, null),
 #else
                     property.GetValue(@object), 

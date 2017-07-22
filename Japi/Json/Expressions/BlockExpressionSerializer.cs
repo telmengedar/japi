@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿#if !FRAMEWORK35
+
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
 namespace NightlyCode.Japi.Json.Expressions {
+
 
     /// <summary>
     /// serializes <see cref="BlockExpression"/>s
@@ -37,3 +40,5 @@ namespace NightlyCode.Japi.Json.Expressions {
         }
     }
 }
+
+#endif

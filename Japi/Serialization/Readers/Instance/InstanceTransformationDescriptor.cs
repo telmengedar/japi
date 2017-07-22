@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using NightlyCode.Japi.Extern;
 
 namespace NightlyCode.Japi.Serialization.Readers.Instance {
 

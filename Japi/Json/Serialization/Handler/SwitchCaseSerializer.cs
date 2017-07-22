@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿#if !FRAMEWORK35
+
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace NightlyCode.Japi.Json.Serialization.Handler {
@@ -33,3 +35,5 @@ namespace NightlyCode.Japi.Json.Serialization.Handler {
         }
     }
 }
+
+#endif

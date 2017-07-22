@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿#if !FRAMEWORK35
+
+using System.Collections.Generic;
 using System.Linq.Expressions;
 
 namespace NightlyCode.Japi.Json.Expressions {
@@ -41,3 +43,5 @@ namespace NightlyCode.Japi.Json.Expressions {
         }
     }
 }
+
+#endif

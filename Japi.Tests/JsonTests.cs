@@ -58,6 +58,11 @@ namespace NightlyCode.Japi.Tests {
         }
 
         [Test]
+        public void DeserializeScientificNotation() {
+            JsonNode json=JSON.Writer.Read("1.234567E-06");
+        }
+
+        [Test]
         public void SerializeVariant() {
             VariantClass variant = new VariantClass {
                 Data = new IData[] {

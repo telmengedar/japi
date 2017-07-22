@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.IO;
 using System.Text;
-using NightlyCode.Core.Conversion;
+using NightlyCode.Japi.Extern;
 
 namespace NightlyCode.Japi.Json
 {
@@ -32,7 +32,7 @@ namespace NightlyCode.Japi.Json
                 return Read(ms);
         }
 
-#if UNITY
+#if FRAMEWORK35
         /// <summary>
         /// reads json data
         /// </summary>
@@ -203,7 +203,8 @@ namespace NightlyCode.Japi.Json
 
                 reader.Read();
                 buffer.Append(character);
-            } while(true);
+            }
+            while(reader.Peek() != -1);
 
             string value = buffer.ToString().ToLower();
             switch(value) {
@@ -279,7 +280,7 @@ namespace NightlyCode.Japi.Json
             }
         }
 
-#if UNITY
+#if FRAMEWORK35
         /// <summary>
         /// writes a json node to a stream
         /// </summary>

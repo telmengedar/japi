@@ -1,5 +1,5 @@
 ﻿using System;
-using NightlyCode.Core.Conversion;
+using NightlyCode.Japi.Extern;
 
 namespace NightlyCode.Japi.Serialization.Data {
 

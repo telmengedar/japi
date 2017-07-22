@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using NightlyCode.Core.Conversion;
+using NightlyCode.Japi.Extern;
 
 namespace NightlyCode.Japi.Json.Expressions {
 

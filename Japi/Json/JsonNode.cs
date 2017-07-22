@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using NightlyCode.Core.Conversion;
+using NightlyCode.Japi.Extern;
 
 namespace NightlyCode.Japi.Json
 {

@@ -29,6 +29,15 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Framework 3.5|AnyCPU'">
+    <OutputPath>bin\Framework 3.5\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="nunit.framework, Version=3.4.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -66,40 +75,22 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Data\Encoded\Error.txt" />
+    <EmbeddedResource Include="Data\ObjectStreams\error1.dat" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Data\Raw\error1.dat" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Data\Encoded\Error2.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Data\Raw\Planet.duh" />
-    <EmbeddedResource Include="Data\Raw\ser11.duh" />
-    <EmbeddedResource Include="Data\Raw\ser12.duh" />
-    <EmbeddedResource Include="Data\Raw\ser13.duh" />
-    <EmbeddedResource Include="Data\Raw\ser14.duh" />
-    <EmbeddedResource Include="Data\Raw\ser5.duh" />
-    <EmbeddedResource Include="Data\Raw\ser6.duh" />
-    <EmbeddedResource Include="Data\Raw\ser7.duh" />
-    <EmbeddedResource Include="Data\Raw\ser8.duh" />
-    <EmbeddedResource Include="Data\Raw\ser9.duh" />
-    <EmbeddedResource Include="Data\Raw\serialize.duh" />
-    <EmbeddedResource Include="Data\Raw\serialize2.duh" />
-    <EmbeddedResource Include="Data\Raw\serialize3.duh" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Data\Base64\backorder.txt" />
-    <EmbeddedResource Include="Data\Base64\blockeditem.txt" />
-    <EmbeddedResource Include="Data\Base64\itemlist1.txt" />
-    <EmbeddedResource Include="Data\Base64\itemlist2.txt" />
-    <EmbeddedResource Include="Data\Base64\minimumquantity.txt" />
-    <EmbeddedResource Include="Data\Base64\replacement.txt" />
-    <EmbeddedResource Include="Data\Base64\specialitems.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Data\Base64\pmpparameters.txt" />
+    <EmbeddedResource Include="Data\ObjectStreams\Planet.duh" />
+    <EmbeddedResource Include="Data\ObjectStreams\ser11.duh" />
+    <EmbeddedResource Include="Data\ObjectStreams\ser12.duh" />
+    <EmbeddedResource Include="Data\ObjectStreams\ser13.duh" />
+    <EmbeddedResource Include="Data\ObjectStreams\ser14.duh" />
+    <EmbeddedResource Include="Data\ObjectStreams\ser5.duh" />
+    <EmbeddedResource Include="Data\ObjectStreams\ser6.duh" />
+    <EmbeddedResource Include="Data\ObjectStreams\ser7.duh" />
+    <EmbeddedResource Include="Data\ObjectStreams\ser8.duh" />
+    <EmbeddedResource Include="Data\ObjectStreams\ser9.duh" />
+    <EmbeddedResource Include="Data\ObjectStreams\serialize.duh" />
+    <EmbeddedResource Include="Data\ObjectStreams\serialize2.duh" />
+    <EmbeddedResource Include="Data\ObjectStreams\serialize3.duh" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Data\Json\updates.json" />

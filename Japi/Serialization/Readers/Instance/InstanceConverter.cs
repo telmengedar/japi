@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using NightlyCode.Core.Conversion;
+using NightlyCode.Japi.Extern;
 using NightlyCode.Japi.Serialization.Data;
 using NightlyCode.Japi.Serialization.Transformation;
 

@@ -21,7 +21,7 @@ namespace NightlyCode.Japi.Json {
         /// <returns><see cref="JsonNode"/> containing the read json data</returns>
         JsonNode Read(byte[] data);
 
-#if UNITY
+#if FRAMEWORK35
         /// <summary>
         /// reads json data
         /// </summary>
@@ -45,7 +45,7 @@ namespace NightlyCode.Japi.Json {
         /// <returns></returns>
         string WriteString(JsonNode node);
 
-#if UNITY
+#if FRAMEWORK35
         /// <summary>
         /// writes a json node to a stream
         /// </summary>

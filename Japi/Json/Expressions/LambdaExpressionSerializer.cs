@@ -24,14 +24,14 @@ namespace NightlyCode.Japi.Json.Expressions {
             json["parameters"] = new JsonArray(lamda.Parameters.Select(serializer.Write));
             json["body"] = serializer.Write(lamda.Body);
             //json["return"] = JsonSerializer.Write(lamda.ReturnType);
-#if !UNITY
+#if !FRAMEWORK35
             json["name"] = new JsonValue(lamda.Name);
             json["tail"] = new JsonValue(lamda.TailCall);
 #endif
         }
 
         public Expression Deserialize(JsonObject json) {
-#if UNITY
+#if FRAMEWORK35
             return Expression.Lambda(
                 serializer.Read<Expression>(json["body"]),
                 json["parameters"].Select(serializer.Read<ParameterExpression>).ToArray()

@@ -11,9 +11,6 @@ namespace NightlyCode.Japi.Json {
         static readonly IJsonWriter writer;
 
         static JSON() {
-#if !UNITY
-            Resolver.Resolve();
-#endif
             serializer = new JsonSerializer();
             writer = new JsonWriter();
         }
@@ -61,7 +58,7 @@ namespace NightlyCode.Japi.Json {
                 return Read<T>(ms);
         }
 
-#if UNITY
+#if FRAMEWORK35
         /// <summary>
         /// read data from a json stream
         /// </summary>

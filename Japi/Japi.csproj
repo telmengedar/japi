@@ -9,9 +9,21 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NightlyCode.Japi</RootNamespace>
     <AssemblyName>NightlyCode.Japi</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' != 'Framework 3.5' ">
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Framework 3.5' ">
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Framework35\</OutputPath>
+    <DefineConstants>TRACE;FRAMEWORK35</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -39,9 +51,6 @@
     <AssemblyOriginatorKeyFile>nightlycode.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NightlyCode.Core">
-      <HintPath>$(DevDir)\Compiled\Library\NightlyCode.Core.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -51,8 +60,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extern\ConversionKey.cs" />
+    <Compile Include="Extern\Converter.cs" />
     <Compile Include="Extern\DelegateUtility.cs" />
     <Compile Include="Extern\DynamicLibrary.cs" />
+    <Compile Include="Extern\Tuple.cs" />
+    <Compile Include="Extern\TypeHandlerLookup.cs" />
+    <Compile Include="Extern\XMLExtensions.cs" />
     <Compile Include="Json\Expressions\BinaryExpressionSerializer.cs" />
     <Compile Include="Json\Expressions\BlockExpressionSerializer.cs" />
     <Compile Include="Json\Expressions\ConditionalExpressionSerializer.cs" />
@@ -115,7 +129,6 @@
     <Compile Include="Json\Serialization\IJSonSerializationHandler.cs" />
     <Compile Include="Json\Serialization\JSonSerializationHandler.cs" />
     <Compile Include="Json\VariantAttribute.cs" />
-    <Compile Include="Resolver.cs" />
     <Compile Include="Serialization\Conversion\IDataConverter.cs" />
     <Compile Include="Serialization\Data\Path\DataOperations.cs" />
     <Compile Include="Serialization\Data\Path\DataPathParser.cs" />
@@ -164,18 +177,15 @@
   <ItemGroup>
     <None Include="nightlycode.snk" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="$(DevDir)\Compiled\Library\NightlyCode.Core.dll">
-      <Link>Extern\NightlyCode.Core.dll</Link>
-    </Content>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target> -->
   <Target Name="AfterBuild">
-    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(DevDir)\Compiled\Library\" />
-    <Copy SourceFiles="$(DocumentationFile)" DestinationFolder="$(DevDir)\Compiled\Library\" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(DevDir)\Compiled\Library\" Condition="'$(DevDir)' != '' AND '$(Configuration)' != 'Framework 3.5'" />
+    <Copy SourceFiles="$(DocumentationFile)" DestinationFolder="$(DevDir)\Compiled\Library\" Condition="'$(DevDir)' != '' AND '$(Configuration)' != 'Framework 3.5'" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(DevDir)\Compiled\Unity\" Condition="'$(DevDir)' != '' AND '$(Configuration)' == 'Framework 3.5'" />
+    <Copy SourceFiles="$(DocumentationFile)" DestinationFolder="$(DevDir)\Compiled\Unity\" Condition="'$(DevDir)' != '' AND '$(Configuration)' == 'Framework 3.5'" />
   </Target>
 </Project>

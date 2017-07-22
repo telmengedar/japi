@@ -162,14 +162,14 @@ namespace NightlyCode.Japi.Serialization {
             if(descriptor.Base != null)
                 ReadInstanceData(descriptor.Base, @object);
 
-            if(descriptor.Flags.HasFlag(ClassFlags.SERIALIZABLE)) {
-                if(descriptor.Flags.HasFlag(ClassFlags.EXTERNALIZABLE))
+            if((descriptor.Flags & ClassFlags.SERIALIZABLE) == ClassFlags.SERIALIZABLE) {
+                if((descriptor.Flags & ClassFlags.EXTERNALIZABLE) == ClassFlags.EXTERNALIZABLE)
                     throw new StreamCorruptedException("Descriptor can't be serializable and externizable");
                 @object.Fields.AddRange(ReadFieldData(descriptor));
-                if(descriptor.Flags.HasFlag(ClassFlags.WRITE_METHOD))
+                if((descriptor.Flags & ClassFlags.WRITE_METHOD) == ClassFlags.WRITE_METHOD)
                     @object.Custom.AddRange(ReadCustomData());
             }
-            else if (descriptor.Flags.HasFlag(ClassFlags.EXTERNALIZABLE))
+            else if ((descriptor.Flags & ClassFlags.EXTERNALIZABLE) == ClassFlags.EXTERNALIZABLE)
             {
                 //if (descriptor.Flags.HasFlag(ClassFlags.BLOCK_DATA))
                 //    throw new NotSupportedException("External non block data not supported");

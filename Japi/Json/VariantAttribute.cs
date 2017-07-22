@@ -19,7 +19,7 @@ namespace NightlyCode.Japi.Json {
         /// <param name="property"></param>
         /// <returns></returns>
         public static bool IsVariant(PropertyInfo property) {
-#if UNITY
+#if FRAMEWORK35
             return property.GetCustomAttributes(typeof(VariantAttribute), false).Any();
 #else
             return property.GetCustomAttribute<VariantAttribute>() != null;

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 using System.Reflection;
-using NightlyCode.Core.Collections;
+using NightlyCode.Japi.Extern;
 using NightlyCode.Japi.Json.Expressions;
 using NightlyCode.Japi.Json.Serialization.Handler;
 
@@ -14,7 +14,7 @@ namespace NightlyCode.Japi.Json.Serialization {
             customserializers.SetHandler(typeof(Type), new TypeSerializer());
 
 #if !WINDOWS_UWP
-#if !UNITY
+#if !FRAMEWORK35
             customserializers.SetHandler(typeof(SymbolDocumentInfo), new SymbolDocumentInfoSerializer(serializer));
             customserializers.SetHandler(typeof(SwitchCase), new SwitchCaseSerializer(serializer));
             customserializers.SetHandler(typeof(CatchBlock), new CatchBlockSerializer(serializer));

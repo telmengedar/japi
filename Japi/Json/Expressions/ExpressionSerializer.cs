@@ -17,7 +17,7 @@ namespace NightlyCode.Japi.Json.Expressions {
         /// </summary>
         public ExpressionSerializer(IJsonSerializer serializer) {
             this.serializer = serializer;
-#if !UNITY
+#if !FRAMEWORK35
             AddSerializer(new BlockExpressionSerializer(serializer));
             AddSerializer(new DebugInfoExpressionSerializer(serializer));
             AddSerializer(new DefaultExpressionSerializer(serializer));

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
-using NightlyCode.Core.Helpers;
+using NightlyCode.Japi.Extern;
 using NightlyCode.Japi.Serialization.Data;
 
 namespace NightlyCode.Japi.Serialization.Conversion {
@@ -40,7 +40,11 @@ namespace NightlyCode.Japi.Serialization.Conversion {
                     WriteArray(parent.CreateAndAppendElement("array"), childarray, visited);
             }
             else if(data is JavaValue) {
+#if FRAMEWORK35
+                parent.InnerText = string.Join(";", array.Items.Cast<JavaValue>().Select(GetValue).ToArray());
+#else
                 parent.InnerText = string.Join(";", array.Items.Cast<JavaValue>().Select(GetValue));
+#endif
             }
             else if(data is JavaObject) {
                 foreach(JavaObject item in array.Items.Cast<JavaObject>())
@@ -52,7 +56,11 @@ namespace NightlyCode.Japi.Serialization.Conversion {
         string GetValue(JavaValue value) {
             object jvalue = value.Value;
             if(jvalue is byte[])
+#if FRAMEWORK35
+                jvalue = string.Join(",", ((byte[])jvalue).Select(b => b.ToString("x2")).ToArray());
+#else
                 jvalue = string.Join(",", ((byte[])jvalue).Select(b => b.ToString("x2")));
+#endif
             return jvalue?.ToString() ?? "";
         }
 
