@@ -48,7 +48,8 @@
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>nightlycode.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -173,9 +174,6 @@
     <Compile Include="Serialization\StreamCorruptedException.cs" />
     <Compile Include="Serialization\Tag.cs" />
     <Compile Include="Serialization\Conversion\XmlDataConverter.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="nightlycode.snk" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
