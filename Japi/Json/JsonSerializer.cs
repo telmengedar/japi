@@ -129,7 +129,13 @@ namespace NightlyCode.Japi.Json
                 else {
                     value = Read(property.PropertyType, @object[key], VariantAttribute.IsVariant(property));
                 }
-                property.SetValue(instance, Converter.Convert(value, property.PropertyType), null);
+
+                try {
+                    property.SetValue(instance, Converter.Convert(value, property.PropertyType), null);
+                }
+                catch(Exception e) {
+                    // TODO: log this shit
+                }
             }
             return instance;
         }

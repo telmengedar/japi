@@ -1,6 +1,4 @@
-﻿// this file is duplicated from the NightlyCode.Core project
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
@@ -15,7 +13,7 @@ namespace NightlyCode.Japi.Extern {
     /// <summary>
     /// converter used to convert data types
     /// </summary>
-    public static class Converter {
+    internal static class Converter {
         static readonly Dictionary<ConversionKey, Func<object, object>> specificconverters = new Dictionary<ConversionKey, Func<object, object>>();
 
         /// <summary>
@@ -31,7 +29,9 @@ namespace NightlyCode.Japi.Extern {
             specificconverters[new ConversionKey(typeof(long), typeof(DateTime))] = v => new DateTime((long)v);
             specificconverters[new ConversionKey(typeof(DateTime), typeof(long))] = v => ((DateTime)v).Ticks;
             specificconverters[new ConversionKey(typeof(Version), typeof(string))] = o => o.ToString();
-#if !FRAMEWORK35
+#if FRAMEWORK35
+            specificconverters[new ConversionKey(typeof(string), typeof(Version))] = s => new Version((string)s);
+#else
             specificconverters[new ConversionKey(typeof(string), typeof(Version))] = s => Version.Parse((string)s);
 #endif
             specificconverters[new ConversionKey(typeof(string), typeof(TimeSpan))] = s => TimeSpan.Parse((string)s);
@@ -45,9 +45,43 @@ namespace NightlyCode.Japi.Extern {
             specificconverters[new ConversionKey(typeof(long), typeof(IntPtr))] = v => new IntPtr((long)v);
             specificconverters[new ConversionKey(typeof(int), typeof(UIntPtr))] = v => new UIntPtr((uint)v);
             specificconverters[new ConversionKey(typeof(long), typeof(UIntPtr))] = v => new UIntPtr((ulong)v);
-            specificconverters[new ConversionKey(typeof(string), typeof(bool))] = v => ((string)v).ToLower() == "true" || ((string)v != "" && (string)v != "0");
+            specificconverters[new ConversionKey(typeof(string), typeof(bool))] = v => (string)v != "" && (string)v != "0" && ((string)v).ToLower() != "false";
             specificconverters[new ConversionKey(typeof(string), typeof(byte[]))] = v => System.Convert.FromBase64String((string)v);
+            //specificconverters[new ConversionKey(typeof(string), typeof(Color))] = ParseColor;
         }
+
+        static int ParseColorValue(string value) {
+            if(value.Contains("."))
+                return (int)(float.Parse(value.Trim(), CultureInfo.InvariantCulture) * 255.0f);
+            return int.Parse(value.Trim());
+        }
+
+        /*static object ParseColor(object val) {
+            string value = (string)val;
+            if(value.StartsWith("#")) {
+                if(value.Length == 7)
+                    return Color.FromArgb(int.Parse(value.Substring(1, 2), NumberStyles.HexNumber), int.Parse(value.Substring(3, 2), NumberStyles.HexNumber), int.Parse(value.Substring(5, 2), NumberStyles.HexNumber));
+                if(value.Length == 9)
+                    return Color.FromArgb(int.Parse(value.Substring(1, 2), NumberStyles.HexNumber), int.Parse(value.Substring(3, 2), NumberStyles.HexNumber), int.Parse(value.Substring(5, 2), NumberStyles.HexNumber), int.Parse(value.Substring(7, 2), NumberStyles.HexNumber));
+                throw new Exception($"Invalid color value '{value}'");
+            }
+
+            if(value.ToLower().StartsWith("rgb(")) {
+                int[] values = value.Substring(4, value.Length - 5).Split(',').Select(ParseColorValue).ToArray();
+                if(values.Length != 3)
+                    throw new Exception("Invalid argument count");
+                return Color.FromArgb(values[0], values[1], values[2]);
+            }
+
+            if(value.ToLower().StartsWith("rgba(")) {
+                int[] values = value.Substring(5, value.Length - 6).Split(',').Select(ParseColorValue).ToArray();
+                if (values.Length != 4)
+                    throw new Exception("Invalid argument count");
+                return Color.FromArgb(values[0], values[1], values[2], values[3]);
+            }
+
+            throw new Exception($"unable to parse color value from '{value}'");
+        }*/
 
         /// <summary>
         /// registers a specific converter to be used for a specific conversion
@@ -56,6 +90,28 @@ namespace NightlyCode.Japi.Extern {
         /// <param name="converter"></param>
         public static void RegisterConverter(ConversionKey key, Func<object, object> converter) {
             specificconverters[key] = converter;
+        }
+
+        static object ConvertToEnum(object value, Type targettype, bool allownullonvaluetypes=false) {
+            Type valuetype;
+            if (value is string)
+            {
+                if (((string)value).Length == 0)
+                {
+                    if (allownullonvaluetypes)
+                        return null;
+                    throw new ArgumentException("Empty string is invalid for an enum type");
+                }
+
+                if (((string)value).All(char.IsDigit))
+                {
+                    valuetype = Enum.GetUnderlyingType(targettype);
+                    return Convert(value, valuetype, allownullonvaluetypes);
+                }
+                return Enum.Parse(targettype, (string)value, true);
+            }
+            valuetype = Enum.GetUnderlyingType(targettype);
+            return Enum.ToObject(targettype, Convert(value, valuetype, allownullonvaluetypes));
         }
 
         /// <summary>
@@ -93,22 +149,7 @@ namespace NightlyCode.Japi.Extern {
 #else
             if (targettype.IsEnum) {
 #endif
-                Type valuetype;
-                if(value is string) {
-                    if(((string)value).Length == 0) {
-                        if(allownullonvaluetypes)
-                            return null;
-                        throw new ArgumentException("Empty string is invalid for an enum type");
-                    }
-
-                    if(((string)value).All(char.IsDigit)) {
-                        valuetype = Enum.GetUnderlyingType(targettype);
-                        return Convert(value, valuetype, allownullonvaluetypes);                        
-                    }
-                    return Enum.Parse(targettype, (string)value, true);
-                }
-                valuetype = Enum.GetUnderlyingType(targettype);
-                return Enum.ToObject(targettype, Convert(value, valuetype, allownullonvaluetypes));
+                return ConvertToEnum(value, targettype, allownullonvaluetypes);
             }
 
             ConversionKey key = new ConversionKey(value.GetType(), targettype);
