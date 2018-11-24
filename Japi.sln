@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.28306.52
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Japi", "Japi\Japi.csproj", "{0A63BE01-94AF-48AC-AFBD-A5D4F93FD08E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Japi.Tests", "Japi.Tests\Japi.Tests.csproj", "{7953118B-80F8-4DED-9098-6F35D0ABC743}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Japi.NetStandard", "Japi.NetStandard\Japi.NetStandard.csproj", "{9A39A637-CBAC-4A78-B5B1-CBF9AC435992}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,8 +28,17 @@ Global
 		{7953118B-80F8-4DED-9098-6F35D0ABC743}.Framework 3.5|Any CPU.Build.0 = Debug|Any CPU
 		{7953118B-80F8-4DED-9098-6F35D0ABC743}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7953118B-80F8-4DED-9098-6F35D0ABC743}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A39A637-CBAC-4A78-B5B1-CBF9AC435992}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A39A637-CBAC-4A78-B5B1-CBF9AC435992}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A39A637-CBAC-4A78-B5B1-CBF9AC435992}.Framework 3.5|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A39A637-CBAC-4A78-B5B1-CBF9AC435992}.Framework 3.5|Any CPU.Build.0 = Debug|Any CPU
+		{9A39A637-CBAC-4A78-B5B1-CBF9AC435992}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A39A637-CBAC-4A78-B5B1-CBF9AC435992}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {50B10B63-39CE-4465-B622-C34E73626872}
 	EndGlobalSection
 EndGlobal
