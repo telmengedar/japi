@@ -39,7 +39,7 @@ namespace NightlyCode.Japi.Json {
                     sb.Append(key);
                     sb.Append(" : ");
 
-                    JsonNode node = @object[key];
+                    JsonNode node = @object.TryGetNode(key);
                     AnalyseJson(node, indent + 2, sb);
                 }
                 sb.AppendLine();
@@ -51,7 +51,7 @@ namespace NightlyCode.Japi.Json {
                 JsonArray array = (JsonArray)json;
 
                 sb.Append("[");
-                foreach (JsonNode value in array.Items)
+                foreach (JsonNode value in array.Nodes)
                 {
                     if(!first)
                         sb.Append(",");

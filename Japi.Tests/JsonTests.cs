@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Linq.Expressions;
-using NightlyCode.Japi.Json;
+﻿using NightlyCode.Japi.Json;
 using NUnit.Framework;
 
 namespace NightlyCode.Japi.Tests {
@@ -17,7 +14,7 @@ namespace NightlyCode.Japi.Tests {
             Assert.AreEqual(test, othertest);
         }
 
-        [Test]
+        /*[Test]
         public void ExpressionTest() {
             Expression<Func<TestObject, bool>> expression = o => o.Data == "Dufte" && o.Integer != 3 || o.Float > 2.9f;
             string jsondata = JSON.WriteString(expression);
@@ -31,12 +28,12 @@ namespace NightlyCode.Japi.Tests {
             Expression<Func<TestObject, bool>> expression = o => array.Contains(o.Integer);
             string json = JSON.WriteString(expression);
             Expression<Func<TestObject, bool>> other = JSON.Read<Expression<Func<TestObject, bool>>>(json);
-        }
+        }*/
 
         [Test]
         public void ReadJson([ValueSource(typeof(Resources), nameof(Resources.JSon))]ResourceData<string> data) {
             string json = data.Data;
-            JSON.ReadNodeFromString(json);
+            JsonNode structure=JSON.ReadNodeFromString(json);
         }
 
         [Test]
@@ -47,7 +44,7 @@ namespace NightlyCode.Japi.Tests {
 
         [Test]
         public void JsonConstructorTest() {
-            string data=JSON.Writer.WriteString(new JsonConstructor {
+            string data=JSON.Writer.WriteString(new JsonObject {
                 ["test"] = "test",
                 ["int"] = 42
             });

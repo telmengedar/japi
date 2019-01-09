@@ -1,14 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
     <AssemblyName>NightlyCode.Japi</AssemblyName>
     <RootNamespace>NightlyCode.Japi</RootNamespace>
-    <Version>0.8.5</Version>
+    <Version>0.9.1-preview</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Toni Gottschall</Authors>
+    <Company>NightlyCode</Company>
+    <Description>Java interaction library used to read java object streams and read/write json</Description>
+    <PackageLicenseUrl>http://unlicense.org/</PackageLicenseUrl>
+    <Copyright>Toni Gottschall</Copyright>
+    <PackageProjectUrl>https://github.com/telmengedar/japi</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/telmengedar/japi</RepositoryUrl>
+    <PackageTags>java, json, object, stream</PackageTags>
   </PropertyGroup>
 
   <Target Name="PostPackNugetDeploy" AfterTargets="Pack" Condition="'$(Configuration)' == 'Release'">
-    <Copy SourceFiles="$(OutputPath)..\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(DevDir)\NuGet\" />
+    <Copy SourceFiles="$(OutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(DevDir)\NuGet\" />
   </Target>
 </Project>

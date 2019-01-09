@@ -127,7 +127,7 @@ namespace NightlyCode.Japi.Json
                     value = method.Invoke(null, new object[] { @object.SelectValue<string>(key) });
                 }
                 else {
-                    value = Read(property.PropertyType, @object[key], VariantAttribute.IsVariant(property));
+                    value = Read(property.PropertyType, @object.TryGetNode(key), VariantAttribute.IsVariant(property));
                 }
 
                 try {
@@ -141,9 +141,9 @@ namespace NightlyCode.Japi.Json
         }
 
         object ReadArray(Type elementtype, JsonArray node, bool variant) {
-            Array instance = Array.CreateInstance(elementtype, node.ItemCount);
-            for(int i = 0; i < node.ItemCount; ++i)
-                instance.SetValue(Read(elementtype, node[i], variant), i);
+            Array instance = Array.CreateInstance(elementtype, node.Count);
+            for(int i = 0; i < node.Count; ++i)
+                instance.SetValue(Read(elementtype, ((JsonNode)node)[i], variant), i);
             return instance;
         }
 

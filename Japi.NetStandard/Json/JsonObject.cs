@@ -14,10 +14,18 @@ namespace NightlyCode.Japi.Json
         /// </summary>
         /// <param name="key">key of the node to access</param>
         /// <returns>node with the specified key</returns>
-        public new JsonNode this[string key]
-        {
-            get { return GetNode(key); }
-            set { lookup[key] = value; }
+        public new object this[string key] {
+            get {
+                JsonNode node = GetNode(key);
+                if (node is JsonValue value)
+                    return value.Value;
+                return node;
+            }
+            set {
+                if (value is JsonNode node)
+                    lookup[key] = node;
+                else lookup[key] = new JsonValue(value);
+            }
         }
 
         /// <summary>
@@ -48,8 +56,7 @@ namespace NightlyCode.Japi.Json
         /// <param name="key">key of the object to get</param>
         /// <returns>a <see cref="JsonNode"/> when something is found using the key, null otherwise</returns>
         public JsonNode TryGetNode(string key) {
-            JsonNode node;
-            lookup.TryGetValue(key, out node);
+            lookup.TryGetValue(key, out JsonNode node);
             return node;
         }
 
@@ -66,10 +73,15 @@ namespace NightlyCode.Japi.Json
             throw new JsonException("Indexed access only valid for arrays");
         }
 
-        public override object Value { get { throw new JsonException("Value only valid for value nodes"); } }
+        public override object Value => throw new JsonException("Value only valid for value nodes");
 
         public override IEnumerator<JsonNode> GetEnumerator() {
             throw new JsonException("Enumerator only available for arrays");
+        }
+
+        /// <inheritdoc />
+        public override string ToString() {
+            return JSON.Writer.WriteString(this);
         }
     }
 }

@@ -326,7 +326,7 @@ namespace NightlyCode.Japi.Json
                     writer.Write(",");
                 else flag = true;
 
-                Serialize(key, json[key], writer);
+                Serialize(key, json.TryGetNode(key), writer);
             }
             writer.Write("}");
         }
@@ -334,7 +334,7 @@ namespace NightlyCode.Japi.Json
         void WriteArray(JsonArray array, TextWriter writer) {
             writer.Write("[");
             bool flag = false;
-            if(array.ItemCount > 0) {
+            if(array.Count > 0) {
                 foreach(JsonNode item in array) {
                     if(flag)
                         writer.Write(",");
