@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace NightlyCode.Japi.Json {
 
@@ -8,11 +9,21 @@ namespace NightlyCode.Japi.Json {
     public class JsonArray : JsonNode {
         readonly List<JsonNode> nodes = new List<JsonNode>();
 
+        /// <summary>
+        /// creates a new <see cref="JsonArray"/>
+        /// </summary>
         public JsonArray() {}
 
-        public JsonArray(IEnumerable<JsonNode> nodes) {
-            foreach(JsonNode node in nodes)
-                Add(node);
+        /// <summary>
+        /// creates a new <see cref="JsonArray"/> using an enumeration of values to contain
+        /// </summary>
+        /// <param name="values">values for array to contain</param>
+        public JsonArray(IEnumerable<object> values) {
+            foreach (object value in values)
+                if (value is JsonNode node)
+                    Add(node);
+                else
+                    Add(new JsonValue(value));
         }
 
         /// <summary>
@@ -20,11 +31,11 @@ namespace NightlyCode.Japi.Json {
         /// </summary>
         /// <param name="index">index of value to get</param>
         /// <returns>node with the specified key</returns>
-        public new object this[int index]
+        public override object this[int index]
         {
             get
             {
-                JsonNode node = GetNode(index);
+                JsonNode node = nodes[index];
                 if (node is JsonValue value)
                     return value.Value;
                 return node;
@@ -37,39 +48,57 @@ namespace NightlyCode.Japi.Json {
             }
         }
 
-        /// <summary>
-        /// adds a node to the array
-        /// </summary>
-        /// <param name="node"></param>
-        public void Add(JsonNode node) {
-            nodes.Add(node);
+        public override object this[string key]
+        {
+            get => throw new JsonException("named access only valid for Json Objects");
+            set => throw new JsonException("named access only valid for Json Objects");
         }
 
+        /// <summary>
+        /// get node at specified index
+        /// </summary>
+        /// <param name="index">index where node is stored</param>
+        /// <returns>node at specified index</returns>
+        public JsonNode GetNode(int index) {
+            return nodes[index];
+        }
+
+        /// <summary>
+        /// adds a value to the array
+        /// </summary>
+        /// <param name="value">value to add to the array</param>
+        public void Add(object value) {
+            if (value is JsonNode node)
+                nodes.Add(node);
+            else nodes.Add(new JsonValue(value));
+        }
+
+        /// <summary>
+        /// nodes in json array
+        /// </summary>
         public IEnumerable<JsonNode> Nodes => nodes;
+
+        /// <summary>
+        /// values in json array
+        /// </summary>
+        public IEnumerable<object> Values => Nodes.Select(n => (n is JsonValue value) ? value.Value : n);
 
         /// <summary>
         /// number of items in array
         /// </summary>
         public int Count => nodes.Count;
 
-        protected override JsonNode GetNode(string key) {
-            throw new JsonException("named access only valid for Json Objects");
-        }
-
-        protected override JsonNode GetNode(int index) {
-            return nodes[index];
-        }
+        /// <inheritdoc />
+        public override object Value => throw new JsonException("Value only valid for value nodes");
 
         /// <inheritdoc />
-        public override object Value { get { throw new JsonException("Value only valid for value nodes"); } }
-
         public override IEnumerator<JsonNode> GetEnumerator() {
             return nodes.GetEnumerator();
         }
 
         /// <inheritdoc />
         public override string ToString() {
-            return $"[{string.Join(",", nodes)}]";
+            return JSON.Writer.WriteString(this);
         }
     }
 }

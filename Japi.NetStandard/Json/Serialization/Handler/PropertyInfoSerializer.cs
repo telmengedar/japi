@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
+using NightlyCode.Japi.Extensions;
 
 namespace NightlyCode.Japi.Json.Serialization.Handler {
 
@@ -28,7 +29,7 @@ namespace NightlyCode.Japi.Json.Serialization.Handler {
         }
 
         public object Deserialize(JsonNode json) {
-            Type host = serializer.Read<Type>(json["host"]);
+            Type host = json.SelectValue<Type>("host");
             string name = json.SelectValue<string>("name");
             return host.GetProperties().First(h => h.Name == name);
         }

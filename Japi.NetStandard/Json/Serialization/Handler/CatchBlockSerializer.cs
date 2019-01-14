@@ -1,6 +1,7 @@
 ﻿#if !FRAMEWORK35
 
 using System.Linq.Expressions;
+using NightlyCode.Japi.Extensions;
 
 namespace NightlyCode.Japi.Json.Serialization.Handler {
 
@@ -29,10 +30,10 @@ namespace NightlyCode.Japi.Json.Serialization.Handler {
 
         public object Deserialize(JsonNode json) {
             return Expression.Catch(
-                serializer.Read<ParameterExpression>(json["variable"]),
-                serializer.Read<Expression>(json["body"]),
-                serializer.Read<Expression>(json["filter"])
-                );
+                serializer.Read<ParameterExpression>(json.SelectNode("variable")),
+                serializer.Read<Expression>(json.SelectNode("body")),
+                serializer.Read<Expression>(json.SelectNode("filter"))
+            );
         }
     }
 }

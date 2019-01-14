@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
+using NightlyCode.Japi.Extensions;
 
 namespace NightlyCode.Japi.Json.Serialization.Handler {
 
@@ -30,10 +31,10 @@ namespace NightlyCode.Japi.Json.Serialization.Handler {
         }
 
         public object Deserialize(JsonNode json) {
-            Type host = serializer.Read<Type>(json["host"]);
+            Type host = json.SelectValue<Type>("host");
             string name = json.SelectValue<string>("method");
-            Type[] parameters = json["parameters"].Select(serializer.Read<Type>).ToArray();
-            Type[] generic = json["genericarguments"].Select(serializer.Read<Type>).ToArray();
+            Type[] parameters = json.SelectNodes("parameters").Select(serializer.Read<Type>).ToArray();
+            Type[] generic = json.SelectNodes("genericarguments").Select(serializer.Read<Type>).ToArray();
 
             foreach(MethodInfo method in host.GetMethods().Where(m => m.Name == name)) {
                 Type[] genericarguments = method.GetGenericArguments();

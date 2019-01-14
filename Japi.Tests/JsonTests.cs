@@ -1,4 +1,5 @@
-﻿using NightlyCode.Japi.Json;
+﻿using NightlyCode.Japi.Extensions;
+using NightlyCode.Japi.Json;
 using NUnit.Framework;
 
 namespace NightlyCode.Japi.Tests {

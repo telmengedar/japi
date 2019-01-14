@@ -2,6 +2,7 @@
 
 using System;
 using System.Linq.Expressions;
+using NightlyCode.Japi.Extensions;
 
 namespace NightlyCode.Japi.Json.Serialization.Handler {
 
@@ -29,7 +30,7 @@ namespace NightlyCode.Japi.Json.Serialization.Handler {
 
         public object Deserialize(JsonNode json) {
             return Expression.Label(
-                serializer.Read<Type>(json["type"]),
+                serializer.Read<Type>(json.SelectNode("type")),
                 json.SelectValue<string>("name")
                 );
         }

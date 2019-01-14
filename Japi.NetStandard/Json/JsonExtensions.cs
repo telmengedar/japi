@@ -39,7 +39,7 @@ namespace NightlyCode.Japi.Json {
                     sb.Append(key);
                     sb.Append(" : ");
 
-                    JsonNode node = @object.TryGetNode(key);
+                    JsonNode node = @object.GetNode(key);
                     AnalyseJson(node, indent + 2, sb);
                 }
                 sb.AppendLine();

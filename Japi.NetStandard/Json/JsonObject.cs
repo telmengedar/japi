@@ -14,9 +14,9 @@ namespace NightlyCode.Japi.Json
         /// </summary>
         /// <param name="key">key of the node to access</param>
         /// <returns>node with the specified key</returns>
-        public new object this[string key] {
+        public override object this[string key] {
             get {
-                JsonNode node = GetNode(key);
+                JsonNode node = lookup[key];
                 if (node is JsonValue value)
                     return value.Value;
                 return node;
@@ -28,11 +28,17 @@ namespace NightlyCode.Japi.Json
             }
         }
 
+        /// <inheritdoc />
+        public override object this[int index] {
+            get => throw new JsonException("Indexed access only valid for arrays");
+            set => throw new JsonException("Indexed access only valid for arrays");
+        }
+
         /// <summary>
         /// determines whether the object contains a node with the specified key
         /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
+        /// <param name="key">key to check for</param>
+        /// <returns>true if object contains value with the specified key, false otherwise</returns>
         public bool ContainsKey(string key) {
             return lookup.ContainsKey(key);
         }
@@ -55,26 +61,26 @@ namespace NightlyCode.Japi.Json
         /// </summary>
         /// <param name="key">key of the object to get</param>
         /// <returns>a <see cref="JsonNode"/> when something is found using the key, null otherwise</returns>
-        public JsonNode TryGetNode(string key) {
+        public object TryGetValue(string key) {
             lookup.TryGetValue(key, out JsonNode node);
+            if (node is JsonValue value)
+                return value.Value;
             return node;
         }
 
-        protected override JsonNode GetNode(string key) {
+        /// <summary>
+        /// get the node stored under the specified key
+        /// </summary>
+        /// <param name="key">key under which node is stored</param>
+        /// <returns><see cref="JsonNode"/> stored under specified key</returns>
+        public JsonNode GetNode(string key) {
             return lookup[key];
         }
 
-        /// <summary>
-        /// always throws an exception since a jsonobject has no <see cref="int"/> indexer
-        /// </summary>
-        /// <param name="index">index to access</param>
-        /// <returns>this method always throws an exception</returns>
-        protected override JsonNode GetNode(int index) {
-            throw new JsonException("Indexed access only valid for arrays");
-        }
-
+        /// <inheritdoc />
         public override object Value => throw new JsonException("Value only valid for value nodes");
 
+        /// <inheritdoc />
         public override IEnumerator<JsonNode> GetEnumerator() {
             throw new JsonException("Enumerator only available for arrays");
         }

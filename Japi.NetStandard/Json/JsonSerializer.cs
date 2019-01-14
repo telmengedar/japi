@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Linq;
 using System.Reflection;
+using NightlyCode.Japi.Extensions;
 using NightlyCode.Japi.Extern;
 using NightlyCode.Japi.Json.Serialization;
 
@@ -45,17 +46,6 @@ namespace NightlyCode.Japi.Json
         /// <param name="variant"></param>
         /// <returns>instance with data from json node</returns>
         object Read(Type type, JsonNode node, bool variant) {
-            if(type.GetInterfaces().Contains(typeof(ICustomJsonSerialization))) {
-                Type customtype = Read<Type>(node["type"]);
-#if WINDOWS_UWP
-                ICustomJsonSerialization customobject = (ICustomJsonSerialization)Activator.CreateInstance(customtype);
-#else
-                ICustomJsonSerialization customobject = (ICustomJsonSerialization)Activator.CreateInstance(customtype, true);
-#endif
-                customobject.Deserialize(node["data"]);
-                return customobject;
-            }
-
             if(node is JsonValue && ((JsonValue)node).Value == null)
                 return null;
 
@@ -90,11 +80,14 @@ namespace NightlyCode.Japi.Json
                 return Converter.Convert(((JsonValue)node).Value, type);
             }
 
+            if (type == typeof(Type))
+                return Type.GetType(node.SelectValue<string>());
+
             // check for variant types
             if (variant)
             {
-                Type customtype = Read<Type>(node["type"]);
-                return Read(customtype, node["data"]);
+                Type customtype = node.SelectValue<Type>("type");
+                return Read(customtype, node.SelectNode("data"));
             }
 
             if (serializers.Contains(type))
@@ -127,7 +120,7 @@ namespace NightlyCode.Japi.Json
                     value = method.Invoke(null, new object[] { @object.SelectValue<string>(key) });
                 }
                 else {
-                    value = Read(property.PropertyType, @object.TryGetNode(key), VariantAttribute.IsVariant(property));
+                    value = Read(property.PropertyType, @object.GetNode(key), VariantAttribute.IsVariant(property));
                 }
 
                 try {
@@ -143,7 +136,7 @@ namespace NightlyCode.Japi.Json
         object ReadArray(Type elementtype, JsonArray node, bool variant) {
             Array instance = Array.CreateInstance(elementtype, node.Count);
             for(int i = 0; i < node.Count; ++i)
-                instance.SetValue(Read(elementtype, ((JsonNode)node)[i], variant), i);
+                instance.SetValue(Read(elementtype, node.GetNode(i), variant), i);
             return instance;
         }
 
@@ -163,15 +156,6 @@ namespace NightlyCode.Japi.Json
         /// <param name="variant"></param>
         /// <returns></returns>
         JsonNode Write(object @object, bool variant) {
-            bool iscustom = @object is ICustomJsonSerialization;
-            if (iscustom) {
-                JsonObject jsonobject = new JsonObject {
-                    ["type"] = Write(@object.GetType()),
-                    ["data"] = ((ICustomJsonSerialization)@object).Serialize()
-                };
-                return jsonobject;
-            }
-
             if(@object is Array) {
                 if(@object.GetType().GetElementType() == typeof(byte))
                     return new JsonValue(Convert.ToBase64String((byte[])@object));
@@ -192,6 +176,9 @@ namespace NightlyCode.Japi.Json
             if (@object == null || @object is string || @object.GetType().IsEnum || @object.GetType().IsValueType || @object is Version || @object is IntPtr || @object is UIntPtr)
 #endif
                 return new JsonValue(@object);
+
+            if (@object is Type type)
+                return new JsonValue(type.AssemblyQualifiedName);
 
             // check for variant types
             if (variant) {

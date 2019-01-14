@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using NightlyCode.Japi.Extensions;
 
 namespace NightlyCode.Japi.Json.Serialization.Handler {
 
@@ -29,8 +30,8 @@ namespace NightlyCode.Japi.Json.Serialization.Handler {
 
         public object Deserialize(JsonNode json) {
             return Expression.ListBind(
-                serializer.Read<MemberInfo>(json["member"]),
-                json["initializers"].Select(serializer.Read<ElementInit>)
+                serializer.Read<MemberInfo>(json.SelectNode("member")),
+                json.SelectNodes("initializers").Select(serializer.Read<ElementInit>)
                 );
         }
     }

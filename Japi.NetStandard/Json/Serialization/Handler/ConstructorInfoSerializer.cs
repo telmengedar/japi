@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
+using NightlyCode.Japi.Extensions;
 
 namespace NightlyCode.Japi.Json.Serialization.Handler {
 
@@ -27,8 +28,8 @@ namespace NightlyCode.Japi.Json.Serialization.Handler {
         }
 
         public object Deserialize(JsonNode json) {
-            Type host = serializer.Read<Type>(json["host"]);
-            Type[] arguments = json["parameters"].Select(serializer.Read<Type>).ToArray();
+            Type host = json.SelectValue<Type>("host");
+            Type[] arguments = json.SelectNodes("parameters").Select(serializer.Read<Type>).ToArray();
 
             foreach(ConstructorInfo ctor in host.GetConstructors()) {
                 if(CompareArguments(ctor.GetParameters(), arguments))

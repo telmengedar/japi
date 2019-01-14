@@ -2,6 +2,7 @@
 
 using System.Linq;
 using System.Linq.Expressions;
+using NightlyCode.Japi.Extensions;
 
 namespace NightlyCode.Japi.Json.Serialization.Handler {
 
@@ -29,9 +30,9 @@ namespace NightlyCode.Japi.Json.Serialization.Handler {
 
         public object Deserialize(JsonNode json) {
             return Expression.SwitchCase(
-                serializer.Read<Expression>(json["body"]),
-                json["values"].Select(serializer.Read<Expression>)
-                );
+                serializer.Read<Expression>(json.SelectNode("body")),
+                json.SelectNodes("values").Select(serializer.Read<Expression>)
+            );
         }
     }
 }

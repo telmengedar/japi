@@ -32,11 +32,11 @@ namespace NightlyCode.Japi.Json.Serialization.Handler {
 
         public object Deserialize(JsonNode json) {
             return Expression.SymbolDocument(
-                json.SelectValue<string>("filename"),
-                serializer.Read<Guid>(json["language"]),
-                serializer.Read<Guid>(json["languagevendor"]),
-                serializer.Read<Guid>(json["documenttype"])
-                );
+                json.SelectSingle<string>("filename"),
+                json.SelectSingle<Guid>("language"),
+                json.SelectSingle<Guid>("languagevendor"),
+                json.SelectSingle<Guid>("documenttype")
+            );
         }
     }
 }

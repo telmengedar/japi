@@ -7,28 +7,29 @@ namespace NightlyCode.Japi.Json
     /// value in json format
     /// </summary>
     public class JsonValue : JsonNode {
-        readonly object value;
 
         /// <summary>
         /// creates a new json entry
         /// </summary>
         /// <param name="value"></param>
         public JsonValue(object value) {
-            this.value = value;
+            Value = value;
         }
 
         /// <inheritdoc />
-        protected override JsonNode GetNode(string key) {
-            throw new JsonException("named access only valid for Json Objects");
+        public override object this[string key] {
+            get => throw new JsonException("named access only valid for Json Objects");
+            set => throw new JsonException("named access only valid for Json Objects");
         }
 
         /// <inheritdoc />
-        protected override JsonNode GetNode(int index) {
-            throw new JsonException("Indexed access only valid for arrays");
+        public override object this[int index] {
+            get => throw new JsonException("Indexed access only valid for arrays");
+            set => throw new JsonException("Indexed access only valid for arrays");
         }
 
         /// <inheritdoc />
-        public override object Value => value;
+        public override object Value { get; }
 
         /// <inheritdoc />
         public override IEnumerator<JsonNode> GetEnumerator() {
@@ -37,7 +38,7 @@ namespace NightlyCode.Japi.Json
 
         /// <inheritdoc />
         public override string ToString() {
-            return $"{Value}";
+            return JSON.Writer.WriteString(this);
         }
     }
 }

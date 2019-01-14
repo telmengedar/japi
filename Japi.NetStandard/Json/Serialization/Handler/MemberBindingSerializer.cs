@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
+using NightlyCode.Japi.Extensions;
 
 namespace NightlyCode.Japi.Json.Serialization.Handler {
 

@@ -326,7 +326,7 @@ namespace NightlyCode.Japi.Json
                     writer.Write(",");
                 else flag = true;
 
-                Serialize(key, json.TryGetNode(key), writer);
+                Serialize(key, json.GetNode(key), writer);
             }
             writer.Write("}");
         }
