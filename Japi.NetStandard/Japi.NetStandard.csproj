@@ -4,7 +4,7 @@
     <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
     <AssemblyName>NightlyCode.Japi</AssemblyName>
     <RootNamespace>NightlyCode.Japi</RootNamespace>
-    <Version>0.9.2-preview</Version>
+    <Version>0.9.4-preview</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Toni Gottschall</Authors>
     <Company>NightlyCode</Company>

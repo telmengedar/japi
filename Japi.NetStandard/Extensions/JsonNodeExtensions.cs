@@ -11,7 +11,7 @@ namespace NightlyCode.Japi.Extensions {
 
         public static object SelectValue(this JsonNode node, string key) {
             if (node is JsonObject @object)
-                return @object[key];
+                return @object.TryGetValue(key);
             throw new JsonException("Node doesn't support access by key");
         }
 

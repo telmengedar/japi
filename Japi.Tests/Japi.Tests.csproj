@@ -62,12 +62,14 @@
     <Compile Include="IData.cs" />
     <Compile Include="InstanceReaderTest.cs" />
     <Compile Include="JsonExtensionTests.cs" />
+    <Compile Include="JsonNodeTests.cs" />
     <Compile Include="JsonTests.cs" />
     <Compile Include="ObjectStreamTests.cs" />
     <Compile Include="Order.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourceData.cs" />
     <Compile Include="Resources.cs" />
+    <Compile Include="SelectTests.cs" />
     <Compile Include="TestObject.cs" />
     <Compile Include="VariantClass.cs" />
   </ItemGroup>

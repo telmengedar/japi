@@ -43,7 +43,7 @@ namespace NightlyCode.Japi.Json
         /// <param name="path">path to nodes to select</param>
         /// <returns>enumeration of nodes matching path</returns>
         public IEnumerable<object> Select(string path) {
-            foreach(JsonNode node in Select(path.Split('/'), 0))
+            foreach(object node in Select(path.Split('/'), 0))
                 if (node is JsonValue value)
                     yield return value.Value;
                 else yield return node;
@@ -78,16 +78,18 @@ namespace NightlyCode.Japi.Json
         }
 
         IEnumerable<object> Select(string[] path, int index) {
-            if(this is JsonArray) {
-                foreach(JsonNode node in this)
+            if(this is JsonArray thisarray) {
+                foreach(JsonNode node in thisarray.Nodes)
                     foreach(object child in node.Select(path, index))
                         yield return child;
             }
             else if(this is JsonObject @object) {
-                object child = @object[path[index++]];
+                object child = @object.TryGetValue(path[index++]);
+                if (child == null)
+                    yield break;
                 if(index >= path.Length) {
                     if(child is JsonArray array)
-                        foreach(JsonNode item in array)
+                        foreach(JsonNode item in array.Nodes)
                             yield return item;
                     else yield return child;
                 }
