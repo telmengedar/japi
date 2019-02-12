@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using NightlyCode.Japi.Extern;
 
@@ -9,7 +8,7 @@ namespace NightlyCode.Japi.Json
     /// <summary>
     /// node of a json document
     /// </summary>
-    public abstract class JsonNode : IEnumerable<JsonNode> {
+    public abstract class JsonNode {
 
         /// <summary>
         /// indexer using a string as key used for <see cref="JsonObject"/>s
@@ -29,13 +28,6 @@ namespace NightlyCode.Japi.Json
         /// value of node
         /// </summary>
         public abstract object Value { get; }
-
-        /// <inheritdoc />
-        public abstract IEnumerator<JsonNode> GetEnumerator();
-
-        IEnumerator IEnumerable.GetEnumerator() {
-            return GetEnumerator();
-        }
 
         /// <summary>
         /// selects nodes using a path from a json node

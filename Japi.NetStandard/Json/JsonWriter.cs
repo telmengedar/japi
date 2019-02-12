@@ -400,7 +400,7 @@ namespace NightlyCode.Japi.Json
             else if(value is decimal)
                 writer.Write(((decimal)value).ToString(CultureInfo.InvariantCulture));
             else
-                throw new InvalidOperationException("Type not supported");
+                throw new InvalidOperationException($"Type '{value.GetType().Name}' not supported");
         }
 
         string Escape(string data) {

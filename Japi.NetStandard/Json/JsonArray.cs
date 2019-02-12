@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace NightlyCode.Japi.Json {
@@ -6,7 +7,7 @@ namespace NightlyCode.Japi.Json {
     /// <summary>
     /// json array containing json nodes
     /// </summary>
-    public class JsonArray : JsonNode {
+    public class JsonArray : JsonNode, IEnumerable<JsonNode> {
         readonly List<JsonNode> nodes = new List<JsonNode>();
 
         /// <summary>
@@ -92,13 +93,17 @@ namespace NightlyCode.Japi.Json {
         public override object Value => throw new JsonException("Value only valid for value nodes");
 
         /// <inheritdoc />
-        public override IEnumerator<JsonNode> GetEnumerator() {
+        public IEnumerator<JsonNode> GetEnumerator() {
             return nodes.GetEnumerator();
         }
 
         /// <inheritdoc />
         public override string ToString() {
             return JSON.Writer.WriteString(this);
+        }
+
+        IEnumerator IEnumerable.GetEnumerator() {
+            return GetEnumerator();
         }
     }
 }

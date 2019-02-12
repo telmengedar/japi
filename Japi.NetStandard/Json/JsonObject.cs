@@ -81,11 +81,6 @@ namespace NightlyCode.Japi.Json
         public override object Value => throw new JsonException("Value only valid for value nodes");
 
         /// <inheritdoc />
-        public override IEnumerator<JsonNode> GetEnumerator() {
-            throw new JsonException("Enumerator only available for arrays");
-        }
-
-        /// <inheritdoc />
         public override string ToString() {
             return JSON.Writer.WriteString(this);
         }
